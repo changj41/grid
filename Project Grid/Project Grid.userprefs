@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\GameController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_scripts\Summoner.cs">
     <Files>
-      <File FileName="Assets\GameController.cs" Line="18" Column="6" />
+      <File FileName="Assets\_scripts\Summoner.cs" Line="29" Column="6" />
+      <File FileName="Assets\_scripts\InputManager.cs" Line="17" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

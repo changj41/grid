@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GridMaker : MonoBehaviour {
 
   public GameObject _white;
   public GameObject _blue;

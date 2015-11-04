@@ -46,7 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\GameController.cs" />
+     <Compile Include="Assets\_scripts\GridMaker.cs" />
+     <Compile Include="Assets\_scripts\InputManager.cs" />
+     <Compile Include="Assets\_scripts\Summoner.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
