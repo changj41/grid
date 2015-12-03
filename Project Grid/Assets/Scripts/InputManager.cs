@@ -51,7 +51,9 @@ public class InputManager
 		if(Input.GetMouseButtonDown(0 /*left*/))
 		{
 			result = new ScreenInput();
-			result.inputPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+      Vector3 mouseInput = Input.mousePosition;
+      mouseInput.z = 10;
+			result.inputPoint = Camera.main.ScreenToWorldPoint(mouseInput);
 			result.state = ScreenInput.State.Down;
 		}
 
@@ -69,6 +71,6 @@ public class ScreenInput
 		Up,    // First frame click/touch up (released)
 	}
 
-	public Vector2 inputPoint;
+	public Vector3 inputPoint;
 	public State state;
 }
