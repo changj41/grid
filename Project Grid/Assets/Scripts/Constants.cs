@@ -7,6 +7,7 @@ public static class Constants {
   {
     public const float boardZ = 8;
     public const float boardX = 4;
+    public const float raycastLength = 10;
   }
 
   public static class Path
@@ -18,8 +19,11 @@ public static class Constants {
 
   public static class Tags
   {
+    public const string GameController = "GameController";
     public const string MainCamera = "MainCamera";
     public const string MovementRangeIndicator = "MovementRangeIndicator";
     public const string BoardTile = "BoardTile";
+    public const string Character = "Character";
+    public const string Hero = "Hero";
   }
 }

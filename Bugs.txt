@@ -1,0 +1,4 @@
+Bugs:
+
+1) If you click carefully, you can move 2 units onto the same square
+2) Hard to click square behind character if character's blocking square (change camera angle?)

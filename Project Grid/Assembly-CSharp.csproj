@@ -46,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Constants.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GridMaker.cs" />
+     <Compile Include="Assets\Scripts\Hero.cs" />
+     <Compile Include="Assets\Scripts\HeroCharacterClass.cs" />
      <Compile Include="Assets\Scripts\ICharacterClass.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
      <Compile Include="Assets\Scripts\Summoner.cs" />

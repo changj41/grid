@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Summoner : MonoBehaviour
+public class Hero : MonoBehaviour
 {
 
   private Rigidbody _rigidbody;
-  private SummonerCharacterClass _summonerClass;
+  private HeroCharacterClass _heroClass;
   private GameObject _greenPrefab;
   private InputManager _inputManager;
   private GameObject _camera;
@@ -17,11 +17,11 @@ public class Summoner : MonoBehaviour
 
   public string unitName;
 
-	// Initialization of the unit
-	void Start ()
+  // Use this for initialization
+  void Start()
   {
     _rigidbody = GetComponent<Rigidbody>();
-    _summonerClass = new SummonerCharacterClass();
+    _heroClass = new HeroCharacterClass();
     _greenPrefab = Resources.Load<GameObject>(Constants.Path.GreenTilePrefab);
     _inputManager = new InputManager();
     _camera = GameObject.FindGameObjectWithTag(Constants.Tags.MainCamera);
@@ -31,11 +31,11 @@ public class Summoner : MonoBehaviour
     clickCount = 0;
 
     //Temp
-    unitName = "Summoner";
-	}
-	
-	// Update is called once per frame
-	void Update()
+    unitName = "Hero";
+  }
+
+  // Update is called once per frame
+  void Update()
   {
     if(_gameController.GetComponent<GameController>().selectedUnit != unitName)
     {
@@ -74,7 +74,7 @@ public class Summoner : MonoBehaviour
         }
       }
     }
-	}
+  }
 
   void OnMouseDown()
   {
@@ -114,7 +114,7 @@ public class Summoner : MonoBehaviour
 
   private void showMovementRange()
   {
-    List<Vector3> possibleMoves = _summonerClass.showMovementRange(_rigidbody.position);
+    List<Vector3> possibleMoves = _heroClass.showMovementRange(_rigidbody.position);
     Quaternion initQuat = Quaternion.Euler(new Vector3(90, 0, 0));
     for(int i = 0; i < possibleMoves.Count; i++)
     {
