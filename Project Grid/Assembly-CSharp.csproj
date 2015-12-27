@@ -38,39 +38,60 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GridMaker.cs" />
-     <Compile Include="Assets\Scripts\Hero.cs" />
-     <Compile Include="Assets\Scripts\HeroCharacterClass.cs" />
      <Compile Include="Assets\Scripts\ICharacterClass.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
-     <Compile Include="Assets\Scripts\Summoner.cs" />
-     <Compile Include="Assets\Scripts\SummonerCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\RedGridCheck.cs" />
+     <Compile Include="Assets\Scripts\chess\Archer.cs" />
+     <Compile Include="Assets\Scripts\chess\ArcherCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Assassin.cs" />
+     <Compile Include="Assets\Scripts\chess\AssassinCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Hero.cs" />
+     <Compile Include="Assets\Scripts\chess\HeroCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Knight.cs" />
+     <Compile Include="Assets\Scripts\chess\KnightCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Priest.cs" />
+     <Compile Include="Assets\Scripts\chess\PriestCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Soldier.cs" />
+     <Compile Include="Assets\Scripts\chess\SoldierCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\Summoner.cs" />
+     <Compile Include="Assets\Scripts\chess\SummonerCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\chess\warrior.cs" />
+     <Compile Include="Assets\Scripts\chess\warriorCharacterClass.cs" />
+     <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
+     <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
+     <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />
+     <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransformArray.cs" />
+     <Compile Include="Assets\iTweenEditor\iTween.cs" />
+     <Compile Include="Assets\iTweenEditor\iTweenEvent.cs" />
+     <Compile Include="Assets\iTweenEditor\iTweenPath.cs" />
+     <None Include="Assets\iTweenEditor\README.txt" />
  <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
- <HintPath>D:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
- <HintPath>D:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
