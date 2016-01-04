@@ -151,7 +151,7 @@ public class Assassin : MonoBehaviour
 						{
 							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
 							moveRangeTile.transform.SetParent(this.transform);
-							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+//							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
 						}
           			}
         		}

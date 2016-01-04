@@ -17,6 +17,7 @@ public class RedGridCheck : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
+		Debug.Log(other.gameObject.tag);
 		ColliderGameobjectName = other.gameObject.name;
 		string SelectName = _gameController.GetComponent<GameController>().selectedUnit;
 		if((ColliderGameobjectName == "Assassin1"&&_gameController.GetComponent<GameController>().Assassin1IsCover)||(ColliderGameobjectName == "Assassin2"&&_gameController.GetComponent<GameController>().Assassin2IsCover))
@@ -82,9 +83,16 @@ public class RedGridCheck : MonoBehaviour {
 				Destroy(this.gameObject);
 			}
 		}
-		/*else if(other.gameObject.tag != "Character" || other==null ){
+		/*else if(other==null){
 			//if(other.gameObject.tag == "Character")
 			Destroy(this.gameObject);
+		}*/
+		/*else if(other.gameObject.tag != "Character" && other.gameObject.tag =="MovementRangeIndicator")
+		{
+			if(other.gameObject.tag != "Character")
+			{
+				Destroy(other.gameObject);
+			}
 		}*/
 	}
 }
