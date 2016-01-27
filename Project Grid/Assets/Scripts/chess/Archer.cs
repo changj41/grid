@@ -17,6 +17,8 @@ public class Archer : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public string unitName;
+	public GameObject panel;
+	bool attackbool = false;
 
   	// Use this for initialization
 	void Start()
@@ -34,9 +36,10 @@ public class Archer : MonoBehaviour
 	    clickCount = 0;
 
 		_gameControllerScript.Archer1IsCover = true;
+		_gameControllerScript.Archer2IsCover = true;
 		//Temp
 		unitName = this.gameObject.name;
-		GetComponentInChildren<TextMesh>().text = "Archer1\n(cover)";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(cover)";
 	}
 
   	// Update is called once per frame
@@ -85,30 +88,59 @@ public class Archer : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.Archer1IsCover)
+			if(!attackbool)
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.Archer1IsCover = false;
-			}
-			else
-			{
-				showingMovementRange = true;
+				panel.SetActive(true);
+				if(!_gameControllerScript.Archer1IsCover||!_gameControllerScript.Archer2IsCover)
+				{
+					GameObject.Find("see").SetActive(false);
+//					GameObject.Find("not").GetComponent<UISprite>().leftAnchor = 85;
+				}
 				_gameController.GetComponent<GameController>().pieceSelected = true;
 				_gameController.GetComponent<GameController>().selectedUnit = unitName;
 				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = "Archer1\n(select)";
+				if(_gameControllerScript.Archer1IsCover && this.gameObject.name == "Archer1" && _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+				{
+					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				}
+				else if(_gameControllerScript.Archer2IsCover && this.gameObject.name == "Archer2"  && _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+				{
+					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				}
 			}
+			else if(attackbool)
+			{
+				clearMovementIndicators();
+			}
+//			if(_gameControllerScript.Archer1IsCover && this.gameObject.name == "Archer1")
+//			{
+//				GetComponentInChildren<TextMesh>().text = unitName;
+//				_gameControllerScript.Archer1IsCover = false;
+//			}
+//			else if(_gameControllerScript.Archer2IsCover && this.gameObject.name == "Archer2")
+//			{
+//				GetComponentInChildren<TextMesh>().text = unitName;
+//				_gameControllerScript.Archer2IsCover = false;
+//			}
+//			else
+//			{
+//				showingMovementRange = true;
+//				_gameController.GetComponent<GameController>().pieceSelected = true;
+//				_gameController.GetComponent<GameController>().selectedUnit = unitName;
+//				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+//				showMovementRange();
+//				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+//			}
 		}
-		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-		{
-			showingMovementRange = false;
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			_gameController.GetComponent<GameController>().selectedUnit = null;
-			clearMovementIndicators();
-			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = "Archer1";
-		}
+//		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
+//		{
+//			showingMovementRange = false;
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			_gameController.GetComponent<GameController>().selectedUnit = null;
+//			clearMovementIndicators();
+//			clickCount = 0;
+//			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+//		}
   	}
 
 	private void clearMovementIndicators()
@@ -118,19 +150,22 @@ public class Archer : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = "Archer1";
+//		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		panel.SetActive(false);
   	}
 
   	private void moveCharacter(Vector3 newPosition)
   	{
     	Vector3 currentPosition = this.transform.position;
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
   	}
 
   	private void showMovementRange()
   	{
 		List<Vector3> possibleMoves = _ArcherClass.showMovementRange(_rigidbody.position);
     	Quaternion initQuat = Quaternion.Euler(new Vector3(90, 0, 0));
+		string tempname = "";
     	for(int i = 0; i < possibleMoves.Count; i++)
     	{
       		if(possibleMoves[i] != _rigidbody.position)
@@ -143,16 +178,23 @@ public class Archer : MonoBehaviour
 			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
 			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
 			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
-			            if(check.Length == 0)
-            			{
+						RaycastHit hit;
+						if(check.Length == 0)
+						{
 							GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
 							moveRangeTile.transform.SetParent(this.transform);
-            			}
-						if(check.Length == 2)
+						}
+						if(Physics.Raycast(ray, out hit))
 						{
-							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
-							moveRangeTile.transform.SetParent(this.transform);
-							//iTween.ColorTo(moveRangeTile,Color.Red,0.2f);
+							if(check.Length == 2)
+							{	
+								if(hit.collider.name != tempname)
+								{
+									tempname = hit.collider.name;
+									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+								}
+							}
 						}
           			}
         		}
@@ -176,26 +218,119 @@ public class Archer : MonoBehaviour
   	}
 	void OnTriggerEnter(Collider other) 
 	{
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="Character"){
-				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
-				{
-					if(other.gameObject.name == "Assassin1")
-					{
-						_gameControllerScript.Assassin1IsCover = false;
-						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
-					}
-					else if(other.gameObject.name == "Assassin2")
-					{
-						_gameControllerScript.Assassin2IsCover = false;
-						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
-					}
-					Destroy(this.gameObject);
-				}
-				else{
-					Destroy(other.gameObject);
-				}
+		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
+		{
+			if(other.gameObject.tag=="EmenyCharacter")
+			{
+				Destroy(other.gameObject);
 			}
+//			if(other.gameObject.tag=="Character")
+//			{
+//				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
+//				{
+//					if(other.gameObject.name == "Assassin1")
+//					{
+//						_gameControllerScript.Assassin1IsCover = false;
+//						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
+//					}
+//					else if(other.gameObject.name == "Assassin2")
+//					{
+//						_gameControllerScript.Assassin2IsCover = false;
+//						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
+//					}
+//					Destroy(this.gameObject);
+//				}
+//				else{
+//					Destroy(other.gameObject);
+//				}
+//			}
+		}
+	}
+	public void attack()
+	{
+//			showingMovementRange = true;
+//			_gameController.GetComponent<GameController>().pieceSelected = true;
+//			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+//			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+//			showMovementRange();
+//			GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+		if(this.gameObject.name == "Archer1" && _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.Archer1IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+		else if(this.gameObject.name == "Archer2"  && _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.Archer2IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+	}
+	public void see()
+	{
+		if(_gameControllerScript.Archer1IsCover && this.gameObject.name == "Archer1" && _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.Archer1IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(_gameControllerScript.Archer2IsCover && this.gameObject.name == "Archer2"  && _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.Archer2IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+	}
+	public void cannel()
+	{
+		if(_gameControllerScript.Archer1IsCover && this.gameObject.name == "Archer1" && _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+		{
+			
+			GetComponentInChildren<TextMesh>().text = "Archer1\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(_gameControllerScript.Archer2IsCover && this.gameObject.name == "Archer2"  && _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+		{
+			GetComponentInChildren<TextMesh>().text = "Archer2\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(!_gameControllerScript.Archer1IsCover && this.gameObject.name == "Archer1" && _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "Archer1";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(!_gameControllerScript.Archer2IsCover && this.gameObject.name == "Archer2"  && _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+		{
+			GetComponentInChildren<TextMesh>().text = "Archer2";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
 		}
 	}
 }

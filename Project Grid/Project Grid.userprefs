@@ -1,6 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\chess\Archer.cs">
+    <Files>
+      <File FileName="Assets\Scripts\chess\Archer.cs" Line="96" Column="46" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="89" Column="46" />
+      <File FileName="Assets\Scripts\UI\GameUi.cs" Line="116" Column="3" />
+      <File FileName="Assets\Scripts\SaveBox.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Assassin.cs" Line="113" Column="30" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

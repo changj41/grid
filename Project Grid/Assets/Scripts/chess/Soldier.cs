@@ -35,9 +35,12 @@ public class Soldier : MonoBehaviour
     	revealed = false;
 		clickCount = 0;
 		_gameControllerScript.Soldier1IsCover = true;
+		_gameControllerScript.Soldier2IsCover = true;
+		_gameControllerScript.Soldier3IsCover = true;
+		_gameControllerScript.Soldier4IsCover = true;
     	//Temp
 		unitName = this.gameObject.name;
-		GetComponentInChildren<TextMesh>().text = "Soldier1\n(cover)";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(cover)";
   	}
 
   	// Update is called once per frame
@@ -86,10 +89,25 @@ public class Soldier : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.Soldier1IsCover)
+			if(_gameControllerScript.Soldier1IsCover && this.gameObject.name == "Soldier1")
 			{
 				GetComponentInChildren<TextMesh>().text = unitName;
 				_gameControllerScript.Soldier1IsCover = false;
+			}
+			else if(_gameControllerScript.Soldier2IsCover && this.gameObject.name == "Soldier2")
+			{
+				GetComponentInChildren<TextMesh>().text = unitName;
+				_gameControllerScript.Soldier2IsCover = false;
+			}
+			else if(_gameControllerScript.Soldier3IsCover && this.gameObject.name == "Soldier3")
+			{
+				GetComponentInChildren<TextMesh>().text = unitName;
+				_gameControllerScript.Soldier3IsCover = false;
+			}
+			else if(_gameControllerScript.Soldier4IsCover && this.gameObject.name == "Soldier4")
+			{
+				GetComponentInChildren<TextMesh>().text = unitName;
+				_gameControllerScript.Soldier4IsCover = false;
 			}
 			else
 			{
@@ -98,7 +116,7 @@ public class Soldier : MonoBehaviour
 				_gameController.GetComponent<GameController>().selectedUnit = unitName;
 				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = "Soldier1\n(select)";
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
 			}
 		}
 		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
@@ -108,7 +126,7 @@ public class Soldier : MonoBehaviour
 			_gameController.GetComponent<GameController>().selectedUnit = null;
 			clearMovementIndicators();
 			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = "Soldier1";
+			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		}
 	}
 
@@ -119,7 +137,7 @@ public class Soldier : MonoBehaviour
 		{
       		Destroy(movementTiles[i]);
    		}
-		GetComponentInChildren<TextMesh>().text = "Soldier1";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
   	}
 
   	private void moveCharacter(Vector3 newPosition)
@@ -128,7 +146,7 @@ public class Soldier : MonoBehaviour
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
   	}
 
-  	private void showMovementRange()
+	private void showMovementRange()
   	{
 		List<Vector3> possibleMoves = _SoldierClass.showMovementRange(_rigidbody.position);
 	    Quaternion initQuat = Quaternion.Euler(new Vector3(90, 0, 0));
@@ -144,16 +162,22 @@ public class Soldier : MonoBehaviour
 			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
 			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
 			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
-			            if(check.Length == 0)
-			            {
+						RaycastHit hit;
+						if(check.Length == 0)
+						{
 							GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
 							moveRangeTile.transform.SetParent(this.transform);
-			            }
-						if(check.Length == 1)
+						}
+						if(Physics.Raycast(ray, out hit))
 						{
-							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
-							moveRangeTile.transform.SetParent(this.transform);
-//							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+							if(check.Length == 1)
+							{
+								if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+								{
+									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+								}
+							}
 						}
           			}
         		}
@@ -162,14 +186,12 @@ public class Soldier : MonoBehaviour
   	}
 	void OnTriggerEnter(Collider other) 
 	{
-		Debug.Log(other.gameObject.name);
 		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
 		{
-			if(other.gameObject.tag=="Character")
+			if(other.gameObject.tag=="EmenyCharacter")
 			{
 				Destroy(other.gameObject);
 			}
 		}
-	}
-		
+	}		
 }

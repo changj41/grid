@@ -35,9 +35,10 @@ public class warrior : MonoBehaviour
     	clickCount = 0;
 
 		_gameControllerScript.Warrior1IsCover = true;
+		_gameControllerScript.Warrior2IsCover = true;
 		//Temp
 		unitName = this.gameObject.name;
-		GetComponentInChildren<TextMesh>().text = "Warrior1\n(cover)";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name+"\n(cover)";
 	}
 
   	// Update is called once per frame
@@ -86,10 +87,15 @@ public class warrior : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.Warrior1IsCover)
+			if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1")
 			{
 				GetComponentInChildren<TextMesh>().text = unitName;
 				_gameControllerScript.Warrior1IsCover = false;
+			}
+			else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2")
+			{
+				GetComponentInChildren<TextMesh>().text = unitName;
+				_gameControllerScript.Warrior2IsCover = false;
 			}
 			else
 			{
@@ -98,7 +104,7 @@ public class warrior : MonoBehaviour
 				_gameController.GetComponent<GameController>().selectedUnit = unitName;
 				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = "Warrior1\n(select)";
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name+"\n(select)";
 			}
 		}
 		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
@@ -108,7 +114,7 @@ public class warrior : MonoBehaviour
 			_gameController.GetComponent<GameController>().selectedUnit = null;
 			clearMovementIndicators();
 			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = "Warrior1";
+			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		}
   	}
 
@@ -119,7 +125,7 @@ public class warrior : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = "Warrior1";
+		GetComponentInChildren<TextMesh>().text = this.name;
   	}
 
   	private void moveCharacter(Vector3 newPosition)
@@ -136,7 +142,7 @@ public class warrior : MonoBehaviour
     	for(int i = 0; i < possibleMoves.Count; i++)
     	{
       		if(possibleMoves[i] != _rigidbody.position)
-      		{	
+      		{
         		if(possibleMoves[i].x >= 0 && possibleMoves[i].x < Constants.Board.boardX)
         		{
           			if(possibleMoves[i].z >= 0 && possibleMoves[i].z < Constants.Board.boardZ)
@@ -145,16 +151,23 @@ public class warrior : MonoBehaviour
 			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
 			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
 			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
+						RaycastHit hit;
 			            if(check.Length == 0)
             			{
 			            	GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
 			            	moveRangeTile.transform.SetParent(this.transform);
             			}
-						if(check.Length == 1)
+						if(Physics.Raycast(ray, out hit))
 						{
-							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
-							moveRangeTile.transform.SetParent(this.transform);
-//							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+							if(check.Length == 1)
+							{
+								if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+								{
+									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+//									iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+								}
+							}
 						}
           			}
         		}
@@ -166,19 +179,19 @@ public class warrior : MonoBehaviour
 	{
 		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
 		{
-			if(other.gameObject.tag=="Character")
+			if(other.gameObject.tag=="EmenyCharacter")
 			{
-				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
+				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
 				{
-					if(other.gameObject.name == "Assassin1")
+					if(other.gameObject.name == "EAssassin1")
 					{
-						_gameControllerScript.Assassin1IsCover = false;
-						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
+						_gameControllerScript.EAssassin1IsCover = false;
+						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
 					}
-					else if(other.gameObject.name == "Assassin2")
+					else if(other.gameObject.name == "EAssassin2")
 					{
-						_gameControllerScript.Assassin2IsCover = false;
-						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
+						_gameControllerScript.EAssassin2IsCover = false;
+						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
 					}
 					Destroy(this.gameObject);
 				}
