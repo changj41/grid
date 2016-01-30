@@ -32,8 +32,9 @@ public class Knight : MonoBehaviour
 	    showingMovementRange = false;
 	    revealed = false;
 	    clickCount = 0;
-		GetComponentInChildren<TextMesh>().text = "Knight\n(cover)";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(cover)";
 		_gameControllerScript.Knight1IsCover = true;
+		_gameControllerScript.Knight2IsCover = true;
     	//Temp
 		unitName = this.gameObject.name;
   	}
@@ -84,10 +85,15 @@ public class Knight : MonoBehaviour
 	{		
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.Knight1IsCover)
+			if(_gameControllerScript.Knight1IsCover && this.gameObject.name == "Knight1")
 			{
 				GetComponentInChildren<TextMesh>().text = unitName;
 				_gameControllerScript.Knight1IsCover = false;
+			}
+			else if(_gameControllerScript.Knight2IsCover && this.gameObject.name == "Knight2")
+			{
+				GetComponentInChildren<TextMesh>().text = unitName;
+				_gameControllerScript.Knight2IsCover = false;
 			}
 			else
 			{	
@@ -97,7 +103,7 @@ public class Knight : MonoBehaviour
 				_gameController.GetComponent<GameController>().selectedUnit = unitName;
 				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = "Knight1\n(select)";
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
 	    	}
 		}
 		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
@@ -108,7 +114,7 @@ public class Knight : MonoBehaviour
 			_gameController.GetComponent<GameController>().selectedUnit = null;
 	      	clearMovementIndicators();
 	      	clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = "Knight";
+			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 				
 		}
   	}
@@ -120,7 +126,7 @@ public class Knight : MonoBehaviour
 	    {
 	      Destroy(movementTiles[i]);
 	    }
-		GetComponentInChildren<TextMesh>().text = "Knight";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 	}
 	private void moveCharacter(Vector3 newPosition)
 	{
@@ -144,16 +150,23 @@ public class Knight : MonoBehaviour
 			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
 			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
 			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
+						RaycastHit hit;
 			            if(check.Length == 0)
 	            		{
 							GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
 							moveRangeTile.transform.SetParent(this.transform);
 			            }
-						if(check.Length == 1)
+						if(Physics.Raycast(ray, out hit))
 						{
-							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
-							moveRangeTile.transform.SetParent(this.transform);
-//							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+							if(check.Length == 1)
+							{
+								if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+								{
+									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+//									iTween.ColorTo(moveRangeTile,Color.red,0.2f);
+								}
+							}
 						}
 			       	}
 	        	}
@@ -164,7 +177,7 @@ public class Knight : MonoBehaviour
 	void OnTriggerEnter(Collider other) 
 	{
 		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="Character")
+			if(other.gameObject.tag=="EmenyCharacter")
 			{
 				Debug.Log(other.gameObject.name);
 				Destroy(other.gameObject);

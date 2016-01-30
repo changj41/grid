@@ -12,6 +12,7 @@ public class Priest : MonoBehaviour
   	private GameObject _camera;
   	private GameObject _gameController;
 	private GameController  _gameControllerScript;
+//	public  AttackAssassin attackassassin;
   	private bool showingMovementRange;
   	private bool revealed;
   	private int clickCount;
@@ -21,22 +22,24 @@ public class Priest : MonoBehaviour
   	// Use this for initialization
   	void Start()
   	{
+//		attackassassin = transform.FindChild("GameGrid").GetComponentInChildren<AttackAssassin>();
 	    _rigidbody = GetComponent<Rigidbody>();
 		_PriestClass = new PriestCharacterClass();
 	    _greenPrefab = Resources.Load<GameObject>(Constants.Path.GreenTilePrefab);
 	    _inputManager = new InputManager();
 	    _camera = GameObject.FindGameObjectWithTag(Constants.Tags.MainCamera);
 	    _gameController = GameObject.FindGameObjectWithTag(Constants.Tags.GameController);
-		_gameControllerScript =  _gameController.GetComponent<GameController>();
+		_gameControllerScript  =  _gameController.GetComponent<GameController>();
 		_redPrefab = Resources.Load<GameObject>(Constants.Path.RedTilePrefab);
 	    showingMovementRange = false;
 	    revealed = false;
 	    clickCount = 0;
-			_gameControllerScript.Priest1IsCover = true;
+		_gameControllerScript.Priest1IsCover = true;
+		_gameControllerScript.Priest2IsCover = true;
 
 	    //Temp
 		unitName = this.gameObject.name;
-		GetComponentInChildren<TextMesh>().text = "Priest1\n(cover)";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(cover)";
   	}
 
   	// Update is called once per frame
@@ -85,18 +88,24 @@ public class Priest : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.Priest1IsCover)
+			if( _gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.Priest1IsCover = false;
+					GetComponentInChildren<TextMesh>().text = unitName;
+					_gameControllerScript.Priest1IsCover = false;
 			}
-			else{
+			else if( _gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2")
+			{
+					GetComponentInChildren<TextMesh>().text = unitName;
+					_gameControllerScript.Priest2IsCover = false;
+			}
+			else
+			{
 				showingMovementRange = true;
 				_gameController.GetComponent<GameController>().pieceSelected = true;
 				_gameController.GetComponent<GameController>().selectedUnit = unitName;
 				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = "Priest1\n(select)";
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
 			}
 		}
 		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
@@ -106,7 +115,7 @@ public class Priest : MonoBehaviour
 			_gameController.GetComponent<GameController>().selectedUnit = null;
 			clearMovementIndicators();
 			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = "Priest1";
+			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		}
   	}
 
@@ -117,7 +126,7 @@ public class Priest : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = "Priest1";
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
   	}
 
   	private void moveCharacter(Vector3 newPosition)
@@ -142,20 +151,23 @@ public class Priest : MonoBehaviour
 			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
 			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
 			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
-			            if(check.Length == 0)
-            			{
-			            	GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
-			            	moveRangeTile.transform.SetParent(this.transform);
-			            }
-						else if(check.Length == 1)
+						RaycastHit hit;
+						if(check.Length == 0)
 						{
-							GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+							GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
 							moveRangeTile.transform.SetParent(this.transform);
-//							iTween.ColorTo(moveRangeTile,Color.red,0.2f);
 						}
-						else
+						if(Physics.Raycast(ray, out hit))
 						{
-							
+							if(check.Length == 1)
+							{
+								if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+								{
+									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+//									iTween.ColorTo(moveRangeTile,new Color(255/255f,0/255f,0/255f,50/255f),5f);
+								}
+							}
 						}
           			}
         		}
@@ -165,22 +177,24 @@ public class Priest : MonoBehaviour
 
 	void OnTriggerEnter(Collider other) {
 		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="Character"){
-				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
+			if(other.gameObject.tag=="EmenyCharacter")
+			{
+				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
 				{
-					if(other.gameObject.name == "Assassin1")
+					if(other.gameObject.name == "EAssassin1")
 					{
-						_gameControllerScript.Assassin1IsCover = false;
-						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
+						_gameControllerScript.EAssassin1IsCover = false;
+						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
 					}
-					else if(other.gameObject.name == "Assassin2")
+					else if(other.gameObject.name == "EAssassin2")
 					{
-						_gameControllerScript.Assassin2IsCover = false;
-						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
+						_gameControllerScript.EAssassin2IsCover = false;
+						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
 					}
 					Destroy(this.gameObject);
 				}
-				else{
+				else
+				{
 					Destroy(other.gameObject);
 				}
 			}
