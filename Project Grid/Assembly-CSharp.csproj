@@ -45,6 +45,8 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Human Pack\Humans\Human Models\Projectiles\Magic Missile\humanMissileTail.cs" />
+     <Compile Include="Assets\InceaseCard.cs" />
      <Compile Include="Assets\KnapsackItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipRandomItem.cs" />
@@ -183,10 +185,12 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITexture.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
+     <Compile Include="Assets\ORCS\Scripts\WalkingOrc.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\DestrotDropUI.cs" />
      <Compile Include="Assets\Scripts\DragDrop.cs" />
      <Compile Include="Assets\Scripts\DragDropItem.cs" />
+     <Compile Include="Assets\Scripts\EffectLightsFade.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
      <Compile Include="Assets\Scripts\GridMaker.cs" />
      <Compile Include="Assets\Scripts\ICharacterClass.cs" />
@@ -195,6 +199,9 @@
      <Compile Include="Assets\Scripts\SaveBox.cs" />
      <Compile Include="Assets\Scripts\UI\GameUi.cs" />
      <Compile Include="Assets\Scripts\UI\StartMenu.cs" />
+     <Compile Include="Assets\Scripts\WhenNotClick.cs" />
+     <Compile Include="Assets\Scripts\WhenOKClick.cs" />
+     <Compile Include="Assets\Scripts\WhenSeeClick.cs" />
      <Compile Include="Assets\Scripts\chess\Archer.cs" />
      <Compile Include="Assets\Scripts\chess\ArcherCharacterClass.cs" />
      <Compile Include="Assets\Scripts\chess\Assassin.cs" />
@@ -240,6 +247,7 @@
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
+     <None Include="Assets\Human Pack\README.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
@@ -269,17 +277,11 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

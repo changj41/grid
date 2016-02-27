@@ -17,6 +17,7 @@ public class EArcher : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public string unitName;
+	public GameObject panel;
 
   	// Use this for initialization
 	void Start()
@@ -86,34 +87,26 @@ public class EArcher : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1")
+			panel.SetActive(true);
+			_gameController.GetComponent<GameController>().pieceSelected = true;
+			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+			if(_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EArcher1IsCover = false;
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else if(_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2")
+			else if(_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EArcher2IsCover = false;
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else
+			else if(!_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
 			{
-				showingMovementRange = true;
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+				panel.transform.Find("see").gameObject.SetActive(false);
 			}
-		}
-		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-		{
-			showingMovementRange = false;
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			_gameController.GetComponent<GameController>().selectedUnit = null;
-			clearMovementIndicators();
-			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+			else if(!_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+			{
+				panel.transform.Find("see").gameObject.SetActive(false);
+			}
 		}
   	}
 
@@ -124,13 +117,25 @@ public class EArcher : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		panel.transform.Find("see").gameObject.SetActive(true);
+		panel.SetActive(false);
+
   	}
 
   	private void moveCharacter(Vector3 newPosition)
   	{
     	Vector3 currentPosition = this.transform.position;
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		if(this.gameObject.name == "EArcher1"){
+			if(_gameControllerScript.EArcher1IsCover){
+				_gameControllerScript.EArcher1IsCover = false;
+			}
+		}
+		if(this.gameObject.name == "EArcher2"){
+			if(_gameControllerScript.EArcher2IsCover){
+				_gameControllerScript.EArcher2IsCover = false;
+			}
+		}
   	}
 
   	private void showMovementRange()
@@ -196,27 +201,119 @@ public class EArcher : MonoBehaviour
 			{
 				Destroy(other.gameObject);
 			}
-//			if(other.gameObject.tag=="Character")
-//			{
-//				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
-//				{
-//					if(other.gameObject.name == "Assassin1")
-//					{
-//						_gameControllerScript.Assassin1IsCover = false;
-//						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
-//					}
-//					else if(other.gameObject.name == "Assassin2")
-//					{
-//						_gameControllerScript.Assassin2IsCover = false;
-//						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
-//					}
-//					Destroy(this.gameObject);
-//				}
-//				else
-//				{
-//					Destroy(other.gameObject);
-//				}
-//			}
 		}
 	}
+	public void attack()
+	{
+		print("attack  " + this.gameObject.name);
+		//			showingMovementRange = true;
+		//			_gameController.GetComponent<GameController>().pieceSelected = true;
+		//			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+		//			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+		//			showMovementRange();
+		//			GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+		if(this.gameObject.name == "EArcher1" && _gameController.GetComponent<GameController>().selectedUnit == "EArcher1" &&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.EArcher1IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+		else if(this.gameObject.name == "EArcher2"  && _gameController.GetComponent<GameController>().selectedUnit == "EArcher2"&&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.EArcher2IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+	}
+	public void see()
+	{
+		if(_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1" && _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EArcher1IsCover = false;
+			//panel.transform.Find("see").gameObject.SetActive(true);
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+			//			this.transform.Find("human_EArcher_Rig").gameObject.SetActive(true);
+			//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+
+		}
+		else if(_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2"  && _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EArcher2IsCover = false;
+			//			panel.transform.Find("see").gameObject.SetActive(true);
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+	}
+	public void cannel()
+	{
+		print(this.gameObject.gameObject);
+		if(this.gameObject.name == "EArcher1" && _gameControllerScript.EArcher1IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
+		{
+			GetComponentInChildren<TextMesh>().text = "EArcher1\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EArcher2"  && _gameControllerScript.EArcher2IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+		{
+			GetComponentInChildren<TextMesh>().text = "EArcher2\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if( this.gameObject.name == "EArcher1" && !_gameControllerScript.EArcher1IsCover &&_gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EArcher1";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EArcher2"  &&!_gameControllerScript.EArcher2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+		{
+			GetComponentInChildren<TextMesh>().text = "EArcher2";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+	}
+	IEnumerator waitParticle(){
+		yield return new WaitForSeconds(1.5f);
+		this.transform.Find("Orc_Scout").gameObject.SetActive(true);
+		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	IEnumerator waittimetomove(Vector3 pos){
+		yield return new WaitForSeconds(2.5f);
+		moveCharacter(pos);
+	}
+
 }

@@ -16,7 +16,7 @@ public class Summoner : MonoBehaviour
   	private bool showingMovementRange;
   	private bool revealed;
   	private int clickCount;
-
+	public GameObject panel;
   	public string unitName;
 
 	// Initialization of the unit
@@ -85,29 +85,20 @@ public class Summoner : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
+			panel.SetActive(true);
+			_gameController.GetComponent<GameController>().pieceSelected = true;
+			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 			if(_gameControllerScript.SummnonerIsCover)
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.SummnonerIsCover = false;
+				panel.transform.Find("OK").gameObject.SetActive(false);
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else
+			else if(!_gameControllerScript.SummnonerIsCover)
 			{
-				showingMovementRange = true;
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+				panel.transform.Find("see").gameObject.SetActive(false);
 			}
-		}
-		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-		{
-			showingMovementRange = false;
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			_gameController.GetComponent<GameController>().selectedUnit = null;
-			clearMovementIndicators();
-			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = this.gameObject.name ;
+
 		}
 	}
 
@@ -118,13 +109,22 @@ public class Summoner : MonoBehaviour
 	    {
 			Destroy(movementTiles[i]);
 	    }
-		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
-  	}
+		panel.transform.Find("see").gameObject.SetActive(true);
+		panel.SetActive(false);  	
+	}
 
 	private void moveCharacter(Vector3 newPosition)
 	{
 		Vector3 currentPosition = this.transform.position;
 	    this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		if(this.gameObject.name == "Summnoner1")
+		{
+			if(_gameControllerScript.SummnonerIsCover)
+			{
+				_gameControllerScript.SummnonerIsCover = false;
+			}
+		}
 	}
 
   	private void showMovementRange()
@@ -192,5 +192,70 @@ public class Summoner : MonoBehaviour
 				}
 			}
 		}
+	}
+	public void attack()
+	{
+		if(_gameController.GetComponent<GameController>().selectedUnit == "Summoner1")
+		{
+			showingMovementRange = true;
+
+			showMovementRange();
+			if(_gameControllerScript.SummnonerIsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+	}
+	public void see()
+	{
+		if(_gameControllerScript.SummnonerIsCover)
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.SummnonerIsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+	}
+	public void cannel()
+	{
+		if(_gameControllerScript.SummnonerIsCover && _gameController.GetComponent<GameController>().selectedUnit == "Summoner1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "Summnoner\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(!_gameControllerScript.SummnonerIsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Summoner1")
+		{
+			GetComponentInChildren<TextMesh>().text = "Summnoner1";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+		clickCount = 0;
+	}
+	IEnumerator waitParticle(){
+		yield return new WaitForSeconds(1.5f);
+		this.transform.Find("human_wizard_Rig").gameObject.SetActive(true);
+		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
 	}
 }

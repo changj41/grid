@@ -16,6 +16,7 @@ public class Ewarrior : MonoBehaviour
 	private GameController  _gameControllerScript;
   	private bool revealed;
   	private int clickCount;
+	public GameObject panel;
 
   	public string unitName;
 
@@ -87,34 +88,28 @@ public class Ewarrior : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1")
+			panel.SetActive(true);
+			_gameController.GetComponent<GameController>().pieceSelected = true;
+			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+			if(_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1"&& _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EWarrior1IsCover = false;
+				panel.transform.Find("OK").gameObject.SetActive(false);
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else if(_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2")
+			else if(_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"&& _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EWarrior2IsCover = false;
+				panel.transform.Find("OK").gameObject.SetActive(false);
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else
+			else if(!_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1"&& _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
 			{
-				showingMovementRange = true;
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name+"\n(select)";
+				panel.transform.Find("see").gameObject.SetActive(false);			
 			}
-		}
-		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-		{
-			showingMovementRange = false;
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			_gameController.GetComponent<GameController>().selectedUnit = null;
-			clearMovementIndicators();
-			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+			else if(!_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"&& _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+			{
+				panel.transform.Find("see").gameObject.SetActive(false);		
+			}
 		}
   	}
 
@@ -125,13 +120,29 @@ public class Ewarrior : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = this.name;
+		panel.transform.Find("see").gameObject.SetActive(true);
+		panel.SetActive(false);
   	}
 
   	private void moveCharacter(Vector3 newPosition)
   	{
     	Vector3 currentPosition = this.transform.position;
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		if(this.gameObject.name == "EWarrior1")
+		{
+			if(_gameControllerScript.EWarrior1IsCover)
+			{
+				_gameControllerScript.EWarrior1IsCover = false;
+			}
+		}
+		if(this.gameObject.name == "EWarrior2")
+		{
+			if(_gameControllerScript.EWarrior2IsCover)
+			{
+				_gameControllerScript.EWarrior2IsCover = false;
+			}
+		}
   	}
 
   	private void showMovementRange()
@@ -202,4 +213,113 @@ public class Ewarrior : MonoBehaviour
 			}
 		}
 	}
+	public void attack()
+	{
+		if(this.gameObject.name == "EWarrior1" && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1" &&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+
+			showMovementRange();
+			if(_gameControllerScript.EWarrior1IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+		else if(this.gameObject.name == "EWarrior2"  && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2"&&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.EWarrior2IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+	}
+	public void see()
+	{
+		if(_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1" && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EWarrior1IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+		else if(_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"  && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EWarrior2IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+
+			StartCoroutine(waitParticle());
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+	}
+	public void cannel()
+	{
+		if(this.gameObject.name == "EWarrior1" && _gameControllerScript.EWarrior1IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EWarrior1\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EWarrior2"  && _gameControllerScript.EWarrior2IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+		{
+			GetComponentInChildren<TextMesh>().text = "EWarrior2\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if( this.gameObject.name == "EWarrior1" && !_gameControllerScript.EWarrior1IsCover &&_gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EWarrior1";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EWarrior2"  &&!_gameControllerScript.EWarrior2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EWarrior2";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+		clickCount = 0;
+	}
+	IEnumerator waitParticle(){
+		yield return new WaitForSeconds(1.5f);
+		this.transform.Find("Orc_Gladiator").gameObject.SetActive(true);
+		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+
 }
