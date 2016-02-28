@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour {
 	public bool Warrior2IsCover;
 	public bool Priest1IsCover;
 	public bool Priest2IsCover;
+	public bool Archer1IsDead;
+//敵人
 	public bool ESoldier1IsCover;
 	public bool ESoldier2IsCover;
 	public bool ESoldier3IsCover;
@@ -48,7 +50,7 @@ public class GameController : MonoBehaviour {
 	public bool EPriest1IsCover;
 	public bool EPriest2IsCover;
 
-
+	public GameObject panel;
   	//Temp
   	private GameObject summoner;
   	private GameObject hero;

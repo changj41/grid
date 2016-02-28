@@ -17,6 +17,7 @@ public class EAssassin : MonoBehaviour
 	private bool revealed;
 	private int clickCount;
 	public string unitName;
+	public GameObject panel;
 
   	// Use this for initialization
   	void Start()
@@ -85,35 +86,29 @@ public class EAssassin : MonoBehaviour
   	{
 		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 		{
-			if(_gameControllerScript.EAssassin1IsCover && this.gameObject.name == "EAssassin1")
+			panel.SetActive(true);
+			_gameController.GetComponent<GameController>().pieceSelected = true;
+			_gameController.GetComponent<GameController>().selectedUnit = unitName;
+			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+			if(_gameControllerScript.EAssassin1IsCover && this.gameObject.name == "EAssassin1" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin1")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EAssassin1IsCover = false;
+				panel.transform.Find("OK").gameObject.SetActive(false);
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else if(_gameControllerScript.Assassin2IsCover && this.gameObject.name == "EAssassin2")
+			else if(_gameControllerScript.EAssassin2IsCover && this.gameObject.name == "EAssassin2" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2")
 			{
-				GetComponentInChildren<TextMesh>().text = unitName;
-				_gameControllerScript.EAssassin2IsCover = false;
+				panel.transform.Find("OK").gameObject.SetActive(false);
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else
+			else if(!_gameControllerScript.EAssassin1IsCover && this.gameObject.name == "EAssassin1" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin1")
 			{
-				showingMovementRange = true;
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				showMovementRange();
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
+				panel.transform.Find("see").gameObject.SetActive(false);
 			}
-    	}
-		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-    	{
-      		showingMovementRange = false;
-     		_gameController.GetComponent<GameController>().pieceSelected = false;
-      		_gameController.GetComponent<GameController>().selectedUnit = null;
-			clearMovementIndicators();
-			clickCount = 0;
-			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
-    	}
+			else if(!_gameControllerScript.EAssassin2IsCover && this.gameObject.name == "EAssassin2" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2")
+			{
+				panel.transform.Find("see").gameObject.SetActive(false);
+			}
+		}
   	}
 
   	private void clearMovementIndicators()
@@ -123,13 +118,29 @@ public class EAssassin : MonoBehaviour
     	{
       		Destroy(movementTiles[i]);
     	}
-		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		panel.transform.Find("see").gameObject.SetActive(true);
+		panel.SetActive(false);
   	}
 
   	private void moveCharacter(Vector3 newPosition)
   	{
 		Vector3 currentPosition = this.transform.position;
 		this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
+		if(this.gameObject.name == "EAssassin1")
+		{
+			if(_gameControllerScript.EAssassin1IsCover)
+			{
+				_gameControllerScript.EAssassin1IsCover = false;
+			}
+		}
+		if(this.gameObject.name == "EAssassin2")
+		{
+			if(_gameControllerScript.EAssassin2IsCover)
+			{
+				_gameControllerScript.EAssassin2IsCover = false;
+			}
+		}
   	}
 
   	private void showMovementRange()
@@ -195,5 +206,143 @@ public class EAssassin : MonoBehaviour
 				}
 			}
 		}
+	}
+	public void attack()
+	{
+		if(this.gameObject.name == "EAssassin1" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin1" &&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+
+			showMovementRange();
+			if(_gameControllerScript.EAssassin1IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+		else if(this.gameObject.name == "EAssassin2"  && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2"&&showingMovementRange == false)
+		{
+			showingMovementRange = true;
+			showMovementRange();
+			if(_gameControllerScript.EAssassin2IsCover)
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(CoverselectM&A)";
+			}
+			else
+			{
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+			}
+		}
+	}
+	public void see()
+	{
+		print("do");
+		if(_gameControllerScript.EAssassin1IsCover && this.gameObject.name == "EAssassin1" && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin1")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EAssassin1IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+		else if(_gameControllerScript.EAssassin2IsCover && this.gameObject.name == "EAssassin2"  && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EAssassin2IsCover = false;
+			panel.SetActive(false);
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+
+			StartCoroutine(waitParticle());
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+	}
+	public void cannel()
+	{
+		if(this.gameObject.name == "EAssassin1" && _gameControllerScript.EAssassin1IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EAssassin1\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EAssassin2"  && _gameControllerScript.EAssassin2IsCover && _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2")
+		{
+			GetComponentInChildren<TextMesh>().text = "EAssassin2\n(Cover)";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if( this.gameObject.name == "EAssassin1" && !_gameControllerScript.EAssassin1IsCover &&_gameController.GetComponent<GameController>().selectedUnit == "EAssassin1")
+		{
+
+			GetComponentInChildren<TextMesh>().text = "EAssassin1";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		else if(this.gameObject.name == "EAssassin2"  &&!_gameControllerScript.EAssassin2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "EAssassin2")
+		{
+			GetComponentInChildren<TextMesh>().text = "EAssassin2";
+			clearMovementIndicators();
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+		clickCount = 0;
+	}
+	public void Speicialsee(string ColliderName)
+	{
+
+		if(ColliderName == "EAssassin1" )
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EAssassin1IsCover = false;
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+		else if(ColliderName == "EAssassin2")
+		{
+			GetComponentInChildren<TextMesh>().text = unitName;
+			_gameControllerScript.EAssassin2IsCover = false;
+			_gameController.GetComponent<GameController>().selectedUnit = "";
+			_gameController.GetComponent<GameController>().pieceSelected = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+			StartCoroutine(waitParticle());
+		}
+		if(!panel.transform.Find("OK").gameObject.activeSelf)
+		{
+			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+	}
+	IEnumerator waitParticle(){
+		yield return new WaitForSeconds(1.5f);
+		this.transform.Find("Orc_Assassin").gameObject.SetActive(true);
+		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
 	}
 }

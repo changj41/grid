@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class RedGridCheck : MonoBehaviour {
-	public string ColliderGameobjectName;
+	string ColliderGameobjectName;
 	// Use this for initialization
 	private GameObject _gameController;
 	private GameController  _gameControllerScript;
@@ -13,7 +13,6 @@ public class RedGridCheck : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
 	void OnTriggerEnter(Collider other) {

@@ -1,0 +1,386 @@
+fileFormatVersion: 2
+guid: 9c89f0b1f71f3f1488d8f918a53f3edb
+timeCreated: 1456245214
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: Anc_ankle1_L_
+    100002: Anc_ankle1_R_
+    100004: Anc_ankle2_L_
+    100006: Anc_ankle2_R_
+    100008: Anc_arm1_L_
+    100010: Anc_arm1_R_
+    100012: Anc_body under
+    100014: Anc_body up1
+    100016: Anc_body up2
+    100018: Anc_center
+    100020: Anc_elbow1_L_
+    100022: Anc_elbow1_R_
+    100024: Anc_fore1_L_
+    100026: Anc_fore1_R_
+    100028: Anc_fore2_L_
+    100030: Anc_fore2_R_
+    100032: Anc_fore3_L_
+    100034: Anc_fore3_R_
+    100036: Anc_hair back1
+    100038: Anc_hair back2
+    100040: Anc_hair back3
+    100042: Anc_hair s1_L_
+    100044: Anc_hair s1_R_
+    100046: Anc_hair s2_L_
+    100048: Anc_hair s2_R_
+    100050: Anc_hair s3_L_
+    100052: Anc_hair s3_R_
+    100054: Anc_head
+    100056: Anc_knee_L_
+    100058: Anc_knee_R_
+    100060: Anc_leg1_L_
+    100062: Anc_leg1_R_
+    100064: Anc_line1
+    100066: Anc_middle1_L_
+    100068: Anc_middle1_R_
+    100070: Anc_middle2_L_
+    100072: Anc_middle2_R_
+    100074: Anc_middle3_L_
+    100076: Anc_middle3_R_
+    100078: Anc_neck
+    100080: Anc_neck line1_L_
+    100082: Anc_neck line2_L_
+    100084: Anc_neck line3_L_
+    100086: Anc_shoulder_L_
+    100088: Anc_shoulder_R_
+    100090: Anc_skirt back 1
+    100092: Anc_skirt back 2
+    100094: Anc_skirt back 3
+    100096: Anc_skirt1_L_
+    100098: Anc_skirt1_R_
+    100100: Anc_skirt2_L_
+    100102: Anc_skirt2_R_
+    100104: Anc_skirt3_L_
+    100106: Anc_skirt3_R_
+    100108: Anc_thumb2_L_
+    100110: Anc_thumb2_R_
+    100112: Anc_thumb3_L_
+    100114: Anc_thumb3_R_
+    100116: Anc_wrist_L_
+    100118: Anc_wrist_R_
+    100120: arm
+    100122: body
+    100124: hair
+    100126: //RootNode
+    100128: LL
+    100130: Mesh
+    100132: skirt
+    400000: Anc_ankle1_L_
+    400002: Anc_ankle1_R_
+    400004: Anc_ankle2_L_
+    400006: Anc_ankle2_R_
+    400008: Anc_arm1_L_
+    400010: Anc_arm1_R_
+    400012: Anc_body under
+    400014: Anc_body up1
+    400016: Anc_body up2
+    400018: Anc_center
+    400020: Anc_elbow1_L_
+    400022: Anc_elbow1_R_
+    400024: Anc_fore1_L_
+    400026: Anc_fore1_R_
+    400028: Anc_fore2_L_
+    400030: Anc_fore2_R_
+    400032: Anc_fore3_L_
+    400034: Anc_fore3_R_
+    400036: Anc_hair back1
+    400038: Anc_hair back2
+    400040: Anc_hair back3
+    400042: Anc_hair s1_L_
+    400044: Anc_hair s1_R_
+    400046: Anc_hair s2_L_
+    400048: Anc_hair s2_R_
+    400050: Anc_hair s3_L_
+    400052: Anc_hair s3_R_
+    400054: Anc_head
+    400056: Anc_knee_L_
+    400058: Anc_knee_R_
+    400060: Anc_leg1_L_
+    400062: Anc_leg1_R_
+    400064: Anc_line1
+    400066: Anc_middle1_L_
+    400068: Anc_middle1_R_
+    400070: Anc_middle2_L_
+    400072: Anc_middle2_R_
+    400074: Anc_middle3_L_
+    400076: Anc_middle3_R_
+    400078: Anc_neck
+    400080: Anc_neck line1_L_
+    400082: Anc_neck line2_L_
+    400084: Anc_neck line3_L_
+    400086: Anc_shoulder_L_
+    400088: Anc_shoulder_R_
+    400090: Anc_skirt back 1
+    400092: Anc_skirt back 2
+    400094: Anc_skirt back 3
+    400096: Anc_skirt1_L_
+    400098: Anc_skirt1_R_
+    400100: Anc_skirt2_L_
+    400102: Anc_skirt2_R_
+    400104: Anc_skirt3_L_
+    400106: Anc_skirt3_R_
+    400108: Anc_thumb2_L_
+    400110: Anc_thumb2_R_
+    400112: Anc_thumb3_L_
+    400114: Anc_thumb3_R_
+    400116: Anc_wrist_L_
+    400118: Anc_wrist_R_
+    400120: arm
+    400122: body
+    400124: hair
+    400126: //RootNode
+    400128: LL
+    400130: Mesh
+    400132: skirt
+    4300000: LL
+    4300002: hair
+    4300004: arm
+    4300006: body
+    4300008: skirt
+    7400000: motion_01
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: arm
+    13700002: body
+    13700004: hair
+    13700006: LL
+    13700008: skirt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: motion_01
+      takeName: motion_01
+      firstFrame: 0
+      lastFrame: 41
+      wrapMode: 4
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Anc_center
+        weight: 1
+      - path: Anc_center/Anc_body under
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_L_/Anc_knee_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_L_/Anc_knee_L_/Anc_ankle1_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_L_/Anc_knee_L_/Anc_ankle1_L_/Anc_ankle2_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_R_/Anc_knee_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_R_/Anc_knee_R_/Anc_ankle1_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_leg1_R_/Anc_knee_R_/Anc_ankle1_R_/Anc_ankle2_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_line1
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt back 1
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt back 1/Anc_skirt back 2
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt back 1/Anc_skirt back 2/Anc_skirt
+          back 3
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_L_/Anc_skirt2_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_L_/Anc_skirt2_L_/Anc_skirt3_L_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_R_/Anc_skirt2_R_
+        weight: 1
+      - path: Anc_center/Anc_body under/Anc_skirt1_R_/Anc_skirt2_R_/Anc_skirt3_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair back1
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair back1/Anc_hair
+          back2
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair back1/Anc_hair
+          back2/Anc_hair back3
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_L_/Anc_hair
+          s2_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_L_/Anc_hair
+          s2_L_/Anc_hair s3_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_R_/Anc_hair
+          s2_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck/Anc_head/Anc_hair s1_R_/Anc_hair
+          s2_R_/Anc_hair s3_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck line1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck line1_L_/Anc_neck line2_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_neck line1_L_/Anc_neck line2_L_/Anc_neck
+          line3_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_fore1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_fore1_L_/Anc_fore2_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_fore1_L_/Anc_fore2_L_/Anc_fore3_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_middle1_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_middle1_L_/Anc_middle2_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_middle1_L_/Anc_middle2_L_/Anc_middle3_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_thumb2_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_L_/Anc_arm1_L_/Anc_elbow1_L_/Anc_wrist_L_/Anc_thumb2_L_/Anc_thumb3_L_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_fore1_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_fore1_R_/Anc_fore2_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_fore1_R_/Anc_fore2_R_/Anc_fore3_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_middle1_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_middle1_R_/Anc_middle2_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_middle1_R_/Anc_middle2_R_/Anc_middle3_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_thumb2_R_
+        weight: 1
+      - path: Anc_center/Anc_body up1/Anc_body up2/Anc_shoulder_R_/Anc_arm1_R_/Anc_elbow1_R_/Anc_wrist_R_/Anc_thumb2_R_/Anc_thumb3_R_
+        weight: 1
+      - path: Mesh
+        weight: 1
+      - path: Mesh/arm
+        weight: 1
+      - path: Mesh/body
+        weight: 1
+      - path: Mesh/hair
+        weight: 1
+      - path: Mesh/LL
+        weight: 1
+      - path: Mesh/skirt
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
