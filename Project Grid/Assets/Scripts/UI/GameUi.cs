@@ -48,7 +48,10 @@ public class GameUi : MonoBehaviour {
 		UIlabelTextSet();
 		for(int i=1;i<=savebox.size;i++)
 		{
-			if(PlayerPrefs.HasKey(savebox.SaveBoxGameObject[i-1].name+"PageA"))
+			print(i);
+			print(savebox.SaveBoxGameObject[0].name+"PageA");
+//			if(PlayerPrefs.HasKey(savebox.SaveBoxGameObject[i-1].name+"PageA"))
+			if(PlayerPrefs.HasKey(savebox.SaveBoxGameObject[1].name+"PageA"))
 			{
 				LoadEveryCountSet();
 				item = Instantiate(LoadItem);
