@@ -108,7 +108,11 @@ public class EHero : MonoBehaviour
 			card.GetComponent<UIButton>().ResetDefaultColor();
 			card.GetComponent<UIButton>().enabled = false;
 			card.GetComponent<TweenAlpha>().enabled = false;
+			print(card.GetComponent<UILabel>().color);
+			card.GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+
 			Hero.GetComponent<Hero>().see();
+			print(card.GetComponent<UILabel>().color);
 		}
   	}
 

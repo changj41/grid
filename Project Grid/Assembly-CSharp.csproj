@@ -227,13 +227,26 @@
      <Compile Include="Assets\Scripts\chess\SummonerCharacterClass.cs" />
      <Compile Include="Assets\Scripts\chess\warrior.cs" />
      <Compile Include="Assets\Scripts\chess\warriorCharacterClass.cs" />
-     <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
-     <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
-     <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />
-     <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransformArray.cs" />
-     <Compile Include="Assets\iTweenEditor\iTween.cs" />
-     <Compile Include="Assets\iTweenEditor\iTweenEvent.cs" />
-     <Compile Include="Assets\iTweenEditor\iTweenPath.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\CameraMove.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\CameraOrbit.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\Util.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\iTween.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\GameControllerSample6.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleDungeonDoor.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleGui.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleWeapon.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\TMNController.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\TileGameController.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\Unit.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\MapNav.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\NaviUnit.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\RadiusMarker.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\SelectionIndicator.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNEForcedLink.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNELinksOnOffSwitch.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNEMovementModifier.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileNode.cs" />
+     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\x_test\hextest.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
@@ -244,6 +257,7 @@
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
+     <None Include="Assets\Tile Based Map and Nav\Documentation\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
@@ -254,13 +268,13 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 3.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
-     <None Include="Assets\iTweenEditor\README.txt" />
      <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
+     <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
@@ -277,17 +291,11 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

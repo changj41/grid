@@ -148,6 +148,7 @@ public class Knight : MonoBehaviour
 	{
 	    Vector3 currentPosition = this.transform.position;
 	    this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+//		iTween.Vector3Update(currentPosition,new Vector3(newPosition.x, currentPosition.y, newPosition.z),3);
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Knight1")
 		{

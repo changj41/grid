@@ -25,7 +25,7 @@ public class InceaseCard : MonoBehaviour {
 			this.gameObject.GetComponent<TweenAlpha>().enabled = false;
 			this.gameObject.GetComponent<UIButton>().ResetDefaultColor();
 			this.gameObject.GetComponent<UIButton>().enabled = false;
-			this.gameObject.GetComponent<UIButton>().UpdateColor(true);
+//			this.gameObject.GetComponent<UIButton>().UpdateColor(true);
 		}
 	}
 
