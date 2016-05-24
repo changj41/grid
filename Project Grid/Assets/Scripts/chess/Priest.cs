@@ -17,6 +17,14 @@ public class Priest : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
+	public Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
 
   	public string unitName;
 
@@ -72,6 +80,7 @@ public class Priest : MonoBehaviour
                 				_gameController.GetComponent<GameController>().selectedUnit = null;
                 				clearMovementIndicators();
                 				revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
                 				moveCharacter(hits[i].transform.position);
               				}
             			}
@@ -83,34 +92,42 @@ public class Priest : MonoBehaviour
         		}
       		}
     	}
+		if(ani&&Iswalk)
+		{
+			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
+		}
+
   	}
 
   	void OnMouseDown()
   	{
-		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+		if(_gameControllerScript.PlayerSide % 2 == 0)
 		{
-			panel.SetActive(true);
-			_gameController.GetComponent<GameController>().pieceSelected = true;
-			_gameController.GetComponent<GameController>().selectedUnit = unitName;
-			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			{
+				panel.SetActive(true);
+				_gameController.GetComponent<GameController>().pieceSelected = true;
+				_gameController.GetComponent<GameController>().selectedUnit = unitName;
+				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 
-			if( _gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
-			{
-				panel.transform.Find("OK").gameObject.SetActive(false);
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-			}
-			else if( _gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
-			{
-				panel.transform.Find("OK").gameObject.SetActive(false);
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-			}
-			if( !_gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
-			{
-				panel.transform.Find("see").gameObject.SetActive(false);			
-			}
-			else if( !_gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
-			{
-				panel.transform.Find("see").gameObject.SetActive(false);			
+				if( _gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
+				{
+					panel.transform.Find("OK").gameObject.SetActive(false);
+					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				}
+				else if( _gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
+				{
+					panel.transform.Find("OK").gameObject.SetActive(false);
+					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				}
+				if( !_gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
+				{
+					panel.transform.Find("see").gameObject.SetActive(false);			
+				}
+				else if( !_gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
+				{
+					panel.transform.Find("see").gameObject.SetActive(false);			
+				}
 			}
 		}
   	}
@@ -128,8 +145,66 @@ public class Priest : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-    	Vector3 currentPosition = this.transform.position;
-    	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GameObject Model;
+		Model = this.transform.FindChild("human_cleric_Rig").gameObject;
+		Vector3 currentPosition = this.transform.position;
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightup
+		else if(newPosition.z < currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "rightup";
+			i = new Vector3(0,135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftup
+		else if(newPosition.z > currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "leftup";
+			i = new Vector3(0,45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightdown
+		else if(newPosition.z < currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "rightdown";
+			i = new Vector3(0,-135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftdown
+		else if(newPosition.z > currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "leftdown";
+			i = new Vector3(0,-45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Priest1")
 		{
@@ -187,31 +262,31 @@ public class Priest : MonoBehaviour
     	}
   	}
 
-	void OnTriggerEnter(Collider other) {
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="EmenyCharacter")
-			{
-				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
-				{
-					if(other.gameObject.name == "EAssassin1")
-					{
-						_gameControllerScript.EAssassin1IsCover = false;
-						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
-					}
-					else if(other.gameObject.name == "EAssassin2")
-					{
-						_gameControllerScript.EAssassin2IsCover = false;
-						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
-					}
-					Destroy(this.gameObject);
-				}
-				else
-				{
-					Destroy(other.gameObject);
-				}
-			}
-		}
-	}
+//	void OnTriggerEnter(Collider other) {
+//		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
+//			if(other.gameObject.tag=="EmenyCharacter")
+//			{
+//				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
+//				{
+//					if(other.gameObject.name == "EAssassin1")
+//					{
+//						_gameControllerScript.EAssassin1IsCover = false;
+//						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
+//					}
+//					else if(other.gameObject.name == "EAssassin2")
+//					{
+//						_gameControllerScript.EAssassin2IsCover = false;
+//						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
+//					}
+//					Destroy(this.gameObject);
+//				}
+//				else
+//				{
+//					Destroy(other.gameObject);
+//				}
+//			}
+//		}
+//	}
 	public void attack()
 	{
 		//			showingMovementRange = true;
@@ -321,5 +396,63 @@ public class Priest : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		this.transform.Find("human_cleric_Rig").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	IEnumerator waitAttackThenWalk()
+	{
+		Iswalk = false;
+		yield return new WaitForSeconds(2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+	}
+
+	void Move()
+	{
+		ani.SetFloat("Speed",0);
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+
+
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			if(walkarround == "rightup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z-1f);
+			if(walkarround == "rightdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z-1f);
+//			if(AttackPos != this.gameObject.transform.position)
+//			{
+//				Iswalk = true;
+//				walkafterattack = true;
+//				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+//			}
+//			else
+//			{
+//				walkafterattack = true;
+//				Move();
+//			}
+			ani.SetTrigger("Attack");
+			StartCoroutine(waitAttackThenWalk());
+		}
+//		else if(walkafterattack)
+//		{
+			
+//			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+//			walkafterattack = false;
+//			print("walkafter");
+//		}
+	}
+	void checkPostion()
+	{
+		Iswalk = false;
+		this.transform.position = newpos;
+		ani.SetFloat("Speed",0);
+		_gameControllerScript.PlayerSide ++;
 	}
 }

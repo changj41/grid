@@ -45,7 +45,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AssassinGirl\Scripts\GUI_SelectAni2.cs" />
+     <Compile Include="Assets\AssassinGirl\Scripts\RotateObject2.cs" />
      <Compile Include="Assets\Human Pack\Humans\Human Models\Projectiles\Magic Missile\humanMissileTail.cs" />
+     <Compile Include="Assets\Human Pack\Scripts\DestroyByTime.cs" />
+     <Compile Include="Assets\Human Pack\Scripts\gameContoller.cs" />
+     <Compile Include="Assets\Human Pack\Scripts\triggerProjectile.cs" />
      <Compile Include="Assets\InceaseCard.cs" />
      <Compile Include="Assets\KnapsackItem.cs" />
      <Compile Include="Assets\NGUI\Examples\Scripts\InventorySystem\Game\EquipItems.cs" />
@@ -186,6 +191,8 @@
      <Compile Include="Assets\NGUI\Scripts\UI\UITooltip.cs" />
      <Compile Include="Assets\NGUI\Scripts\UI\UIViewport.cs" />
      <Compile Include="Assets\ORCS\Scripts\WalkingOrc.cs" />
+     <Compile Include="Assets\SampleWeapon.cs" />
+     <Compile Include="Assets\Scripts\AttackPoint.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
      <Compile Include="Assets\Scripts\DestrotDropUI.cs" />
      <Compile Include="Assets\Scripts\DragDrop.cs" />
@@ -197,7 +204,7 @@
      <Compile Include="Assets\Scripts\InputManager.cs" />
      <Compile Include="Assets\Scripts\RedGridCheck.cs" />
      <Compile Include="Assets\Scripts\SaveBox.cs" />
-     <Compile Include="Assets\Scripts\UI\GameUi.cs" />
+     <Compile Include="Assets\Scripts\UI\GameUI.cs" />
      <Compile Include="Assets\Scripts\UI\StartMenu.cs" />
      <Compile Include="Assets\Scripts\WhenNotClick.cs" />
      <Compile Include="Assets\Scripts\WhenOKClick.cs" />
@@ -227,29 +234,23 @@
      <Compile Include="Assets\Scripts\chess\SummonerCharacterClass.cs" />
      <Compile Include="Assets\Scripts\chess\warrior.cs" />
      <Compile Include="Assets\Scripts\chess\warriorCharacterClass.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\CameraMove.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\CameraOrbit.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\Util.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Common\iTween.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\GameControllerSample6.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleDungeonDoor.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleGui.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\SampleWeapon.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\TMNController.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\TileGameController.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\Sample\Unit.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\MapNav.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\NaviUnit.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\RadiusMarker.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\SelectionIndicator.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNEForcedLink.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNELinksOnOffSwitch.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileExtensions\TNEMovementModifier.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\TileNode.cs" />
-     <Compile Include="Assets\Tile Based Map and Nav\Scripts\TMN\x_test\hextest.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\CameraController.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\FaceUpdate.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\IdleChanger.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\SceneLoader.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\ThirdPersonCamera.cs" />
+     <Compile Include="Assets\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
+     <Compile Include="Assets\animationtest.cs" />
+     <Compile Include="Assets\iTween\Sample\MoveSample.cs" />
+     <Compile Include="Assets\iTween\Sample\RotateSample.cs" />
+     <Compile Include="Assets\iTween\Sample\SampleInfo.cs" />
+     <Compile Include="Assets\iTween\iTween.cs" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Depth Cutout.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\NGUI\ReadMe - 3.9.2.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 1.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
+     <None Include="Assets\AssassinGirl\Shaders\Toony-Basic.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 2.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 2.shader" />
      <None Include="Assets\NGUI\Examples\Models\Orc\Orc Skin.shader" />
@@ -257,7 +258,6 @@
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo14.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored (TextureClip).shader" />
-     <None Include="Assets\Tile Based Map and Nav\Documentation\readme.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (Packed) (TextureClip).shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 2.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Masked Colored.shader" />
@@ -266,22 +266,36 @@
      <None Include="Assets\NGUI\Examples\Atlases\Wooden\Arimo18.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored (TextureClip).shader" />
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Header.txt" />
+     <None Include="Assets\UnityChan\license.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked 3.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 1.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Fantasy\Fantasy Font - Normal.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored 3.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Normal.txt" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 2.shader" />
+     <None Include="Assets\AssassinGirl\Shaders\Toony-BasicOutline.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text 3.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 2.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
      <None Include="Assets\Standard Assets\Projectors\Sources\Shaders\Projector Light.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored 1.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Premultiplied Colored.shader" />
+     <None Include="Assets\AssassinGirl\Shaders\Toony-LightedOutline.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair.shader" />
+     <None Include="Assets\AssassinGirl\Shaders\Toony-Lighted.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Colored.shader" />
+     <None Include="Assets\UnityChan\Stage\Shader\AlphaMask.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eyelash_blend.shader" />
+     <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Text.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Packed 3.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
+     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
      <None Include="Assets\NGUI\Examples\Shaders\Unlit - Additive Colored.shader" />
      <None Include="Assets\NGUI\Resources\Shaders\Unlit - Transparent Masked.shader" />
      <None Include="Assets\NGUI\Examples\Atlases\Refractive\Refractive Font - Header.txt" />
@@ -291,11 +305,17 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

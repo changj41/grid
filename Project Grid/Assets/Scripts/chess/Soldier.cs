@@ -17,6 +17,14 @@ public class Soldier : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
+	Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
 
 
   	public string unitName;
@@ -43,6 +51,7 @@ public class Soldier : MonoBehaviour
 		unitName = this.gameObject.name;
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(cover)";
   	}
+		
 
   	// Update is called once per frame
   	void Update()
@@ -74,6 +83,7 @@ public class Soldier : MonoBehaviour
 				                _gameController.GetComponent<GameController>().selectedUnit = null;
 				                clearMovementIndicators();
 				                revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
 				                moveCharacter(hits[i].transform.position);
               				}
             			}
@@ -85,6 +95,11 @@ public class Soldier : MonoBehaviour
 		        }
       		}
     	}
+		if(ani&&Iswalk)
+		{
+			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
+		}
+
   	}
 
 	void OnMouseDown()
@@ -133,25 +148,7 @@ public class Soldier : MonoBehaviour
 			{
 				panel.transform.Find("see").gameObject.SetActive(false);
 			}
-//			else
-//			{
-//				showingMovementRange = true;
-//				_gameController.GetComponent<GameController>().pieceSelected = true;
-//				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-//				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-//				showMovementRange();
-//				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(select)";
-//			}
 		}
-//		else if(showingMovementRange && _gameController.GetComponent<GameController>().pieceSelected)
-//		{
-//			showingMovementRange = false;
-//			_gameController.GetComponent<GameController>().pieceSelected = false;
-//			_gameController.GetComponent<GameController>().selectedUnit = null;
-//			clearMovementIndicators();
-//			clickCount = 0;
-//			GetComponentInChildren<TextMesh>().text = this.gameObject.name;
-//		}
 	}
 
   	private void clearMovementIndicators()
@@ -161,15 +158,44 @@ public class Soldier : MonoBehaviour
 		{
       		Destroy(movementTiles[i]);
    		}
-//		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		panel.transform.Find("see").gameObject.SetActive(true);
 		panel.SetActive(false);
   	}
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-    	Vector3 currentPosition = this.transform.position;
-    	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GameObject Model;
+		Model = this.transform.FindChild("Human_MasterRig").gameObject;
+		Vector3 currentPosition = this.transform.position;
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Soldier1")
 		{
@@ -441,5 +467,56 @@ public class Soldier : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		this.transform.Find("Human_MasterRig").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	IEnumerator waitAttackThenWalk()
+	{
+		Iswalk = false;
+		yield return new WaitForSeconds(2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+//		yield return new WaitForSeconds(1f);
+//		ani.SetFloat("Speed",0,0.1f,Time.deltaTime);
+	}
+
+	void Move()
+	{
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			if(AttackPos != this.gameObject.transform.position)
+			{
+				Iswalk = true;
+				walkafterattack = true;
+				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			else
+			{
+				walkafterattack = true;
+				Move();
+			}
+		}
+		else if(walkafterattack)
+		{
+			ani.SetTrigger("Attack");
+			StartCoroutine(waitAttackThenWalk());
+//			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			walkafterattack = false;
+			print("walkafter");
+		}
+	}
+	void checkPostion()
+	{
+		Iswalk = false;
+		this.transform.position = newpos;
+		ani.SetFloat("Speed",0);
 	}
 }

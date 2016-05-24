@@ -17,6 +17,14 @@ public class ESummoner : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
+	Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
 	public GameObject card;
 
   	public string unitName;
@@ -70,6 +78,7 @@ public class ESummoner : MonoBehaviour
 				                _gameController.GetComponent<GameController>().selectedUnit = null;
 				                clearMovementIndicators();
 				                revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
 				                moveCharacter(hits[i].transform.position);
               				}
             			}
@@ -81,6 +90,10 @@ public class ESummoner : MonoBehaviour
         		}
       		}
     	}
+		if(ani&&Iswalk)
+		{
+			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
+		}
 	}
 
   	void OnMouseDown()
@@ -120,8 +133,67 @@ public class ESummoner : MonoBehaviour
 
 	private void moveCharacter(Vector3 newPosition)
 	{
+		GameObject Model;
+		Model = this.transform.FindChild("Orc_Mystic").gameObject;
 		Vector3 currentPosition = this.transform.position;
-	    this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightup
+		else if(newPosition.z < currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "rightup";
+			i = new Vector3(0,135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftup
+		else if(newPosition.z > currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "leftup";
+			i = new Vector3(0,45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightdown
+		else if(newPosition.z < currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "rightdown";
+			i = new Vector3(0,-135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftdown
+		else if(newPosition.z > currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "leftdown";
+			i = new Vector3(0,-45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Summnoner1")
 		{
@@ -263,5 +335,59 @@ public class ESummoner : MonoBehaviour
 		this.transform.Find("Orc_Mystic").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
 	}
+	IEnumerator waitAttackThenWalk()
+	{
+		Iswalk = false;
+		yield return new WaitForSeconds(2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+	}
 
+	void Move()
+	{
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+
+
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			if(walkarround == "rightup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z-1f);
+			if(walkarround == "rightdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z-1f);
+			if(AttackPos != this.gameObject.transform.position)
+			{
+				Iswalk = true;
+				walkafterattack = true;
+				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			else
+			{
+				walkafterattack = true;
+				Move();
+			}
+		}
+		else if(walkafterattack)
+		{
+			ani.SetTrigger("Attack");
+			StartCoroutine(waitAttackThenWalk());
+			//			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			walkafterattack = false;
+			print("walkafter");
+		}
+	}
+	void checkPostion()
+	{
+		Iswalk = false;
+		this.transform.position = newpos;
+		ani.SetFloat("Speed",0);
+	}
 }

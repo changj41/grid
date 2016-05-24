@@ -50,6 +50,8 @@ public class GameController : MonoBehaviour {
 	public bool EPriest1IsCover;
 	public bool EPriest2IsCover;
 
+
+	public int PlayerSide;
 	public GameObject panel;
   	//Temp
   	private GameObject summoner;
@@ -57,6 +59,7 @@ public class GameController : MonoBehaviour {
 
   	void Start ()
   	{
+		PlayerSide = 0;
     	_inputManager = new InputManager();
 		_camera = GameObject.FindGameObjectWithTag(Constants.Tags.MainCamera);
     	pieceSelected = false;
@@ -86,15 +89,15 @@ public class GameController : MonoBehaviour {
 		for(int i = 1 ; i <= 16 ; i++)
 		{
 			
-			name = PlayerPrefs.GetString("UiRight2_3_"+ i + "PageA");
+			name = PlayerPrefs.GetString("UIRight2_2_"+ i + "PageA");
 			print(name);
-			LoadCharacterDecide("UiRight2_3_"+i,name);
+			LoadCharacterDecide("UIRight2_2_"+i,name);
 		}
 	}
 	int a = 1,b = 1,c = 1,d = 1,e = 1,f = 1,g = 1,h = 1;
 	void LoadCharacterDecide(string boxname,string CharacterName)
 	{
-		if(boxname == "UiRight2_3_1")
+		if(boxname == "UIRight2_2_1")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -138,7 +141,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_2")
+		else if(boxname == "UIRight2_2_2")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -181,7 +184,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_3")
+		else if(boxname == "UIRight2_2_3")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -224,7 +227,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_4")
+		else if(boxname == "UIRight2_2_4")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -267,7 +270,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_5")
+		else if(boxname == "UIRight2_2_5")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -310,7 +313,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_6")
+		else if(boxname == "UIRight2_2_6")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -353,7 +356,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_7")
+		else if(boxname == "UIRight2_2_7")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -396,7 +399,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_8")
+		else if(boxname == "UIRight2_2_8")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -439,7 +442,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_9")
+		else if(boxname == "UIRight2_2_9")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -482,7 +485,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_10")
+		else if(boxname == "UIRight2_2_10")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -525,7 +528,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_11")
+		else if(boxname == "UIRight2_2_11")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -568,7 +571,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_12")
+		else if(boxname == "UIRight2_2_12")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -611,7 +614,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_13")
+		else if(boxname == "UIRight2_2_13")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -654,7 +657,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_14")
+		else if(boxname == "UIRight2_2_14")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -697,7 +700,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_15")
+		else if(boxname == "UIRight2_2_15")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
@@ -740,7 +743,7 @@ public class GameController : MonoBehaviour {
 				h++;
 			}
 		}
-		else if(boxname == "UiRight2_3_16")
+		else if(boxname == "UIRight2_2_16")
 		{
 			if(CharacterName == "World_RoseOfWinds")
 			{
