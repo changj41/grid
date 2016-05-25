@@ -72,6 +72,7 @@ public class Archer : MonoBehaviour
 								revealed = true;
 								if(_gameController.GetComponent<GameController>().PreSelectedUnit == "Archer1")
 								{
+									print("1");
 									if(_gameControllerScript.Archer1IsCover)
 									{
 										this.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -83,6 +84,7 @@ public class Archer : MonoBehaviour
 								}
 								else if(_gameController.GetComponent<GameController>().PreSelectedUnit == "Archer2")
 								{
+									print("2");
 									if(_gameControllerScript.Archer2IsCover)
 									{
 										this.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -93,6 +95,7 @@ public class Archer : MonoBehaviour
 									}
 								}
 								else{
+									print("3");
 				                	moveCharacter(hits[i].transform.position);
 								}
 	              			}
@@ -186,8 +189,10 @@ public class Archer : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
+		print("move");
     	Vector3 currentPosition = this.transform.position;
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		print("move" + this.transform.position);
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Archer1"){
 			if(_gameControllerScript.Archer1IsCover){

@@ -20,6 +20,14 @@ public class Assassin : MonoBehaviour
 	public GameObject panel;
 	public GameObject EAssassin1;
 	public GameObject EAssassin2;
+	Vector3 newpos;
+	Vector3 i;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
+	public GameObject ThisAssassin;
 
   	// Use this for initialization
   	void Start()
@@ -71,6 +79,7 @@ public class Assassin : MonoBehaviour
 				                _gameController.GetComponent<GameController>().selectedUnit = null;
 				                clearMovementIndicators();
 				                revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
 				                moveCharacter(hits[i].transform.position);
 							}
 						}
@@ -126,8 +135,38 @@ public class Assassin : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
+		GameObject Model;
+		Model = this.transform.FindChild("PF_AssassinGirl").gameObject;
 		Vector3 currentPosition = this.transform.position;
-		this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Assassin1")
 		{
@@ -254,8 +293,8 @@ public class Assassin : MonoBehaviour
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
-//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
@@ -267,8 +306,8 @@ public class Assassin : MonoBehaviour
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
-//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 
@@ -319,8 +358,66 @@ public class Assassin : MonoBehaviour
 	}
 	IEnumerator waitParticle(){
 		yield return new WaitForSeconds(1.5f);
-//		this.transform.Find("Human_MasterRig").gameObject.SetActive(true);
+		this.transform.Find("PF_AssassinGirl").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	IEnumerator waitAttackThenWalk()
+	{
+		ThisAssassin.GetComponent<Animation>().wrapMode= WrapMode.Once;
+		ThisAssassin.GetComponent<Animation>().CrossFade("Attack01");
+		Iswalk = false;
+		yield return new WaitForSeconds(2f);
+		Iswalk = true;
+		ThisAssassin.GetComponent<Animation>().wrapMode= WrapMode.Loop;
+		ThisAssassin.GetComponent<Animation>().CrossFade("Run");
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+	}
+
+	void Move()
+	{
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			ThisAssassin.GetComponent<Animation>().wrapMode= WrapMode.Loop;
+			ThisAssassin.GetComponent<Animation>().CrossFade("Run");
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			if(AttackPos != this.gameObject.transform.position)
+			{
+				print ("run");
+				ThisAssassin.GetComponent<Animation>().wrapMode= WrapMode.Loop;
+				ThisAssassin.GetComponent<Animation>().CrossFade("Run");
+				Iswalk = true;
+				walkafterattack = true;
+				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			else
+			{
+				walkafterattack = true;
+				Move();
+			}
+		}
+		else if(walkafterattack)
+		{
+			StartCoroutine(waitAttackThenWalk());
+//			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			walkafterattack = false;
+			print("walkafter");
+		}
+	}
+	void checkPostion()
+	{
+		ThisAssassin.GetComponent<Animation>().wrapMode = WrapMode.Loop;
+		ThisAssassin.GetComponent<Animation>().CrossFade("Idle");
+		Iswalk = false;
+		this.transform.position = newpos;
 	}
 }
 
