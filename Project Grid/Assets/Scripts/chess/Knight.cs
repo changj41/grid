@@ -16,6 +16,14 @@ public class Knight : MonoBehaviour
   	private int clickCount;
 	private GameController  _gameControllerScript;
 	public GameObject panel;
+	public Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
 
   	public string unitName;
 

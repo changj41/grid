@@ -18,7 +18,7 @@ public class Summoner : MonoBehaviour
   	private int clickCount;
 	public GameObject panel;
   	public string unitName;
-	Vector3 newpos;
+	public Vector3 newpos;
 	Vector3 i;
 	public Animator ani;
 	public bool Iswalk;
@@ -242,29 +242,29 @@ public class Summoner : MonoBehaviour
 
 	void OnTriggerEnter(Collider other) 
 	{
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="EmenyCharacter")
-			{
-				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
-				{
-					if(other.gameObject.name == "EAssassin1")
-					{
-						_gameControllerScript.EAssassin1IsCover = false;
-						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
-					}
-					else if(other.gameObject.name == "EAssassin2")
-					{
-						_gameControllerScript.EAssassin2IsCover = false;
-						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
-					}
-					Destroy(this.gameObject);
-				}
-				else
-				{
-					Destroy(other.gameObject);
-				}
-			}
-		}
+//		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
+//			if(other.gameObject.tag=="EmenyCharacter")
+//			{
+//				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
+//				{
+//					if(other.gameObject.name == "EAssassin1")
+//					{
+//						_gameControllerScript.EAssassin1IsCover = false;
+//						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
+//					}
+//					else if(other.gameObject.name == "EAssassin2")
+//					{
+//						_gameControllerScript.EAssassin2IsCover = false;
+//						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
+//					}
+//					Destroy(this.gameObject);
+//				}
+//				else
+//				{
+//					Destroy(other.gameObject);
+//				}
+//			}
+//		}
 	}
 	public void attack()
 	{

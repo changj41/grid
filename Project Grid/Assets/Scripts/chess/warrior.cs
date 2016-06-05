@@ -17,7 +17,7 @@ public class warrior : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
-	Vector3 newpos;
+	public Vector3 newpos;
 	Vector3 i;
 	public Animator ani;
 	public bool Iswalk;
@@ -25,7 +25,7 @@ public class warrior : MonoBehaviour
 	bool walkafterattack = false;
 	Vector3 AttackPos;
 	string walkarround;
-
+	AttackPoint _AttackPoint;
   	public string unitName;
 
   	// Use this for initialization
@@ -92,7 +92,7 @@ public class warrior : MonoBehaviour
         		}
       		}
     	}
-		if(ani&&Iswalk)
+		if(Iswalk)
 		{
 			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
 		}
@@ -370,7 +370,11 @@ public class warrior : MonoBehaviour
 		Iswalk = false;
 		yield return new WaitForSeconds(2f);
 		Iswalk = true;
-		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		if(!((_gameControllerScript.AttackedGridName == "EAssassin1" && _gameControllerScript.EAssassin1IsCover)||(_gameControllerScript.AttackedGridName == "EAssassin2" && _gameControllerScript.EAssassin2IsCover)))
+		{
+			print("11");
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));	
+		}
 	}
 
 	void Move()
@@ -391,18 +395,22 @@ public class warrior : MonoBehaviour
 			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
 			if(AttackPos != this.gameObject.transform.position)
 			{
+				print("1");
 				Iswalk = true;
 				walkafterattack = true;
 				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
 			}
 			else
 			{
+				print("2");
 				walkafterattack = true;
 				Move();
 			}
 		}
 		else if(walkafterattack)
 		{
+			ani.SetFloat("Speed",0);
+			print("3");
 			ani.SetTrigger("Attack");
 			StartCoroutine(waitAttackThenWalk());
 //			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));

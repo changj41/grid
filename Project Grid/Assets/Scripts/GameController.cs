@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour {
 	public bool EWarrior2IsCover;
 	public bool EPriest1IsCover;
 	public bool EPriest2IsCover;
-
+	public string AttackedGridName;
 
 	public int PlayerSide;
 	public GameObject panel;

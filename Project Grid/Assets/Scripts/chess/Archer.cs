@@ -18,6 +18,8 @@ public class Archer : MonoBehaviour
   	private int clickCount;
 	public string unitName;
 	public GameObject panel;
+	public Vector3 newpos;
+	public Animator ani;
 
   	// Use this for initialization
 	void Start()
@@ -189,10 +191,8 @@ public class Archer : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-		print("move");
     	Vector3 currentPosition = this.transform.position;
     	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
-		print("move" + this.transform.position);
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Archer1"){
 			if(_gameControllerScript.Archer1IsCover){
@@ -290,12 +290,12 @@ public class Archer : MonoBehaviour
   	}
 	void OnTriggerEnter(Collider other) 
 	{
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
-		{
-			if(other.gameObject.tag=="EmenyCharacter")
-			{
-				Destroy(other.gameObject);
-			}
+//		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
+//		{
+//			if(other.gameObject.tag=="EmenyCharacter")
+//			{
+//				Destroy(other.gameObject);
+//			}
 //			if(other.gameObject.tag=="Character")
 //			{
 //				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
@@ -316,7 +316,7 @@ public class Archer : MonoBehaviour
 //					Destroy(other.gameObject);
 //				}
 //			}
-		}
+//		}
 	}
 	public void attack()
 	{
@@ -427,7 +427,9 @@ public class Archer : MonoBehaviour
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
 	}
 	IEnumerator waittimetomove(Vector3 pos){
-		yield return new WaitForSeconds(2.5f);
+		newpos = pos;
+		ani.SetTrigger("Attack");
+		yield return new WaitForSeconds(2.0f);
 		moveCharacter(pos);
 	}
 }

@@ -234,6 +234,11 @@
      <Compile Include="Assets\Scripts\chess\SummonerCharacterClass.cs" />
      <Compile Include="Assets\Scripts\chess\warrior.cs" />
      <Compile Include="Assets\Scripts\chess\warriorCharacterClass.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Archer.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Priest.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Soldier.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Summoner.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Warrior.cs" />
      <Compile Include="Assets\UnityChan\Scripts\CameraController.cs" />
      <Compile Include="Assets\UnityChan\Scripts\FaceUpdate.cs" />
      <Compile Include="Assets\UnityChan\Scripts\IdleChanger.cs" />
@@ -305,17 +310,11 @@
      <None Include="Assets\NGUI\Examples\Atlases\SciFi\SciFi Font - Normal.txt" />
      <None Include="Assets\NGUI\Examples\Models\Orc Armor\Orc Armor.shader" />
      <None Include="Assets\NGUI\Examples\Resources\Localization.txt" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>D:/Program Files/Unity5.2/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>D:/Program Files/Unity5.2/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

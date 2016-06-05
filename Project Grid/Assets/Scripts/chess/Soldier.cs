@@ -17,7 +17,7 @@ public class Soldier : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
-	Vector3 newpos;
+	public Vector3 newpos;
 	Vector3 i;
 	public Animator ani;
 	public bool Iswalk;
@@ -265,16 +265,16 @@ public class Soldier : MonoBehaviour
       		}
     	}
   	}
-	void OnTriggerEnter(Collider other) 
-	{
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
-		{
-			if(other.gameObject.tag=="EmenyCharacter")
-			{
-				Destroy(other.gameObject);
-			}
-		}
-	}
+//	void OnTriggerEnter(Collider other) 
+//	{
+//		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
+//		{
+//			if(other.gameObject.tag=="EmenyCharacter")
+//			{
+//				Destroy(other.gameObject);
+//			}
+//		}
+//	}
 	public void attack()
 	{
 		//			showingMovementRange = true;
