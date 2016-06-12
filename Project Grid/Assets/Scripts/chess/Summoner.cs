@@ -97,22 +97,38 @@ public class Summoner : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+		if(_gameControllerScript.PlayerSide%2 == 0)
 		{
-			panel.SetActive(true);
-			_gameController.GetComponent<GameController>().pieceSelected = true;
-			_gameController.GetComponent<GameController>().selectedUnit = unitName;
-			_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-			if(_gameControllerScript.SummnonerIsCover)
+			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 			{
-				panel.transform.Find("OK").gameObject.SetActive(false);
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				panel.SetActive(true);
+				_gameController.GetComponent<GameController>().pieceSelected = true;
+				_gameController.GetComponent<GameController>().selectedUnit = unitName;
+				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+				if(_gameControllerScript.SummnonerIsCover)
+				{
+					panel.transform.Find("OK").gameObject.SetActive(false);
+					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+				}
+				else if(!_gameControllerScript.SummnonerIsCover)
+				{
+					panel.transform.Find("see").gameObject.SetActive(false);
+				}
 			}
-			else if(!_gameControllerScript.SummnonerIsCover)
+			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
 			{
-				panel.transform.Find("see").gameObject.SetActive(false);
+				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
+				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
+				{
+					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
+					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
+					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
+					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
+					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				}
+				this.gameObject.GetComponent<Summoner>().see();
 			}
-
 		}
 	}
 
@@ -285,6 +301,16 @@ public class Summoner : MonoBehaviour
 	}
 	public void see()
 	{
+		if(GameObject.Find("myinceasecard1"))
+		{
+			GameObject.Find("myinceasecard1").GetComponent<InceaseCard>().KingWithoutfearUsed = true;
+			GameObject.Find("myinceasecard1").GetComponent<UIButton>().defaultColor = new Color(225/255f,200/255f,150/255f,255/255f);
+		}
+		if(GameObject.Find("myinceasecard6"))
+		{
+			GameObject.Find("myinceasecard6").GetComponent<InceaseCard>().KingWithoutfearUsed = true;
+			GameObject.Find("myinceasecard6").GetComponent<UIButton>().defaultColor = new Color(225/255f,200/255f,150/255f,255/255f);
+		}
 		if(_gameControllerScript.SummnonerIsCover)
 		{
 			GetComponentInChildren<TextMesh>().text = unitName;
@@ -294,7 +320,6 @@ public class Summoner : MonoBehaviour
 			_gameController.GetComponent<GameController>().pieceSelected = false;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
 		}

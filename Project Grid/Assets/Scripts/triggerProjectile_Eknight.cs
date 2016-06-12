@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class triggerProjectile_Priest : MonoBehaviour {
+public class triggerProjectile_Eknight : MonoBehaviour {
 
 	public GameObject projectile;
 	public Transform shootPoint;
@@ -10,7 +10,7 @@ public class triggerProjectile_Priest : MonoBehaviour {
 	public float attackLenght;
 
 
-	public Priest _Priest;
+	public EKnight _EKnight;
 
 	public GameObject hitEffect;
 
@@ -24,7 +24,7 @@ public class triggerProjectile_Priest : MonoBehaviour {
 
 	public IEnumerator lerpyLoop(GameObject projectileInstance)
 	{
-		var victim = _Priest.newpos;;
+		var victim = _EKnight.newpos;;
 		print(victim);
 		float progress = 0;
 		float timeScale = 1.0f / attackLenght;

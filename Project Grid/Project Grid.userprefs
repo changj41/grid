@@ -1,13 +1,20 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\chess\Archer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\RedGridCheck.cs">
     <Files>
-      <File FileName="Assets\Scripts\chess\Archer.cs" Line="319" Column="6" />
-      <File FileName="Assets\Scripts\triggerProjectile_Warrior.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\triggerProjectile_Soldier.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\AttackPoint.cs" Line="97" Column="159" />
-      <File FileName="Assets\Scripts\triggerProjectile_Archer.cs" Line="39" Column="40" />
-      <File FileName="Assets\Scripts\chess\Summoner.cs" Line="369" Column="5" />
+      <File FileName="Assets\Scripts\RedGridCheck.cs" Line="64" Column="57" />
+      <File FileName="Assets\InceaseCard.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Soldier.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Knight.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Assassin.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Archer.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\warrior.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Hero.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Priest.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\Summoner.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\EHero.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\AttackPoint.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\chess\EArcher.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

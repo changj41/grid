@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class triggerProjectile_Priest : MonoBehaviour {
+public class triggerProjectile_Hero : MonoBehaviour {
 
 	public GameObject projectile;
 	public Transform shootPoint;
@@ -10,7 +10,7 @@ public class triggerProjectile_Priest : MonoBehaviour {
 	public float attackLenght;
 
 
-	public Priest _Priest;
+	public Hero _Hero;
 
 	public GameObject hitEffect;
 
@@ -18,13 +18,13 @@ public class triggerProjectile_Priest : MonoBehaviour {
 	public void shoot()
 	{
 		magicMissile = Instantiate(projectile, shootPoint.position, transform.rotation) as GameObject;
-
+		print("heroshoot");
 		StartCoroutine(lerpyLoop(magicMissile));
 	}
 
 	public IEnumerator lerpyLoop(GameObject projectileInstance)
 	{
-		var victim = _Priest.newpos;;
+		var victim = _Hero.newpos;
 		print(victim);
 		float progress = 0;
 		float timeScale = 1.0f / attackLenght;

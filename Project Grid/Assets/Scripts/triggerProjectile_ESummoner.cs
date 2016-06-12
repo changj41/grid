@@ -1,19 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class triggerProjectile_Priest : MonoBehaviour {
+public class triggerProjectile_ESummoner : MonoBehaviour {
 
 	public GameObject projectile;
 	public Transform shootPoint;
 	private GameObject magicMissile;
-
 	public float attackLenght;
-
-
-	public Priest _Priest;
-
+	public ESummoner _Esummoner;
 	public GameObject hitEffect;
-
 
 	public void shoot()
 	{
@@ -24,7 +19,7 @@ public class triggerProjectile_Priest : MonoBehaviour {
 
 	public IEnumerator lerpyLoop(GameObject projectileInstance)
 	{
-		var victim = _Priest.newpos;;
+		var victim = _Esummoner.newpos;;
 		print(victim);
 		float progress = 0;
 		float timeScale = 1.0f / attackLenght;
@@ -35,7 +30,7 @@ public class triggerProjectile_Priest : MonoBehaviour {
 			if (projectileInstance)
 			{			
 				progress += timeScale * Time.deltaTime;
-				float ypos = (progress - Mathf.Pow(progress, 2)) * 6;
+				float ypos = (progress - Mathf.Pow(progress, 2)) * 1;
 				float ypos_b = ((progress + 0.1f) - Mathf.Pow((progress + 0.1f), 2)) * 6;
 				projectileInstance.transform.position = Vector3.Lerp(origin, victim, progress) + new Vector3(0, ypos, 0);
 				if (progress < 0.9f)
@@ -59,5 +54,4 @@ public class triggerProjectile_Priest : MonoBehaviour {
 		if (magicMissile)
 			Destroy(magicMissile,0.1f);
 	}
-
 }

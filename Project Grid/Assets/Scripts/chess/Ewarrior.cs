@@ -17,7 +17,7 @@ public class Ewarrior : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
-	Vector3 newpos;
+	public Vector3 newpos;
 	Vector3 i;
 	public Animator ani;
 	public bool Iswalk;
@@ -25,6 +25,7 @@ public class Ewarrior : MonoBehaviour
 	bool walkafterattack = false;
 	Vector3 AttackPos;
 	string walkarround;
+	public GameObject AttackShot;
 
   	public string unitName;
 
@@ -122,6 +123,21 @@ public class Ewarrior : MonoBehaviour
 			else if(!_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"&& _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
 			{
 				panel.transform.Find("see").gameObject.SetActive(false);		
+			}
+		}
+		if(GameObject.Find("myinceasecard4"))
+		{
+			if(GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect && _gameController.GetComponent<GameController>().selectedUnit == "Hero1")
+			{
+				see();
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed = true;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				GameObject.Find("Hero1").GetComponent<Hero>().see();
+				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
 			}
 		}
   	}
@@ -289,23 +305,18 @@ public class Ewarrior : MonoBehaviour
 	}
 	public void see()
 	{
-		if(_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1" && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
-		{
+//		if(_gameControllerScript.EWarrior1IsCover && this.gameObject.name == "EWarrior1" && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior1")
+//		{
 			GetComponentInChildren<TextMesh>().text = unitName;
+		if(this.name == "EWarrior1")
+		{
 			_gameControllerScript.EWarrior1IsCover = false;
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-			StartCoroutine(waitParticle());
 		}
-		else if(_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"  && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+		else if(this.name == "EWarrior2")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.EWarrior2IsCover = false;
+		}
+
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
@@ -313,9 +324,22 @@ public class Ewarrior : MonoBehaviour
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-
 			StartCoroutine(waitParticle());
-		}
+//		}
+//		else if(_gameControllerScript.EWarrior2IsCover && this.gameObject.name == "EWarrior2"  && _gameController.GetComponent<GameController>().selectedUnit == "EWarrior2")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.EWarrior2IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//
+//			StartCoroutine(waitParticle());
+//		}
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
@@ -367,10 +391,16 @@ public class Ewarrior : MonoBehaviour
 	}
 	IEnumerator waitAttackThenWalk()
 	{
-		Iswalk = false;
-		yield return new WaitForSeconds(2f);
-		Iswalk = true;
-		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		AttackShot.GetComponent<triggerProjectile_EWarrior>().shoot();
+		yield return new WaitForSeconds(1.5f);
+		if(!GameObject.Find("myinceasecard2") || (GameObject.Find("myinceasecard2") && !GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().isActiveAndEnabled))
+		{
+			Iswalk = false;
+			yield return new WaitForSeconds(1f);
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		}
+		else Iswalk = false;
 	}
 
 	void Move()
@@ -403,9 +433,10 @@ public class Ewarrior : MonoBehaviour
 		}
 		else if(walkafterattack)
 		{
+			ani.SetFloat("Speed",0);
+			Iswalk = false;
 			ani.SetTrigger("Attack");
 			StartCoroutine(waitAttackThenWalk());
-			//			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
 			walkafterattack = false;
 			print("walkafter");
 		}
@@ -416,5 +447,18 @@ public class Ewarrior : MonoBehaviour
 		this.transform.position = newpos;
 		ani.SetFloat("Speed",0);
 	}
-
+	public void TheItalianJobStep2()
+	{
+		print("do");
+		AttackShot.GetComponent<triggerProjectile_EWarrior>().shoot();
+		StartCoroutine(ForStep2());
+	}
+	IEnumerator ForStep2()
+	{
+		print("do");
+		ani.SetTrigger("Attack");
+		yield return new WaitForSeconds(1.2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+	}
 }

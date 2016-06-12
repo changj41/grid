@@ -5,72 +5,59 @@ public class triggerProjectile_Archer : MonoBehaviour {
 
 	public GameObject projectile;
 	public Transform shootPoint;
-	public float startOffset = 1f;
 	private GameObject magicMissile;
 
 	public float attackLenght;
-	public float attackRange;
-	public float missileHeightGain = 0.3f;
-//	private GameObject _gameController;
-//	private GameController  _gameControllerScript;
 
 
 	public Archer _archer;
 
+	public GameObject hitEffect;
+
+
 	public void shoot()
 	{
 		magicMissile = Instantiate(projectile, shootPoint.position, transform.rotation) as GameObject;
-		Vector3 pos = transform.position + new Vector3(0f, startOffset, 0f);
-		Vector3[] path = new Vector3[3];
-		Vector3 targetPos =  _archer.newpos;
-		float distance = Vector3.Distance(pos, targetPos);
-		path[0] = pos;
-		path[1] = Vector3.MoveTowards(pos, targetPos, distance / 2.3f);
-		path[1].y += missileHeightGain;
-		path[2] = targetPos;
 
-		iTween.MoveTo(magicMissile, iTween.Hash(
-							"speed", 10f,
-							"orienttopath", true,
-							"path", path,
-							"easetype", "linear",
-							"oncomplete", "OnFXMissileReachedTarget",
-							"oncompletetarget", gameObject,
-							"oncompleteparams", magicMissile
-						));
+		StartCoroutine(lerpyLoop(magicMissile));
 	}
-
-
-
-	private void OnFXMissileReachedTarget(GameObject missile)
+		
+	public IEnumerator lerpyLoop(GameObject projectileInstance)
 	{
-		GameObject.Destroy(missile, 0.1f);
+		var victim = _archer.newpos;;
+		print(victim);
+		float progress = 0;
+		float timeScale = 1.0f / attackLenght;
+		Vector3 origin = projectileInstance.transform.position;
+
+		while (progress < 1)
+		{
+			if (projectileInstance)
+			{			
+				progress += timeScale * Time.deltaTime;
+				float ypos = (progress - Mathf.Pow(progress, 2)) * 6;
+				float ypos_b = ((progress + 0.1f) - Mathf.Pow((progress + 0.1f), 2)) * 6;
+				projectileInstance.transform.position = Vector3.Lerp(origin, victim, progress) + new Vector3(0, ypos, 0);
+				if (progress < 0.9f)
+				{
+					projectileInstance.transform.LookAt(Vector3.Lerp(origin, victim, progress + 0.1f) + new Vector3(0, ypos_b, 0));
+				}
+				yield return null;
+			}
+		}
+
+		Destroy(projectileInstance,0.1f);
+
+		if (hitEffect)
+			Instantiate(hitEffect, victim, transform.rotation);
+
+		yield return null;
 	}
-//	void OnTriggerEnter(Collider other) {
-//		print("do");
-//		if(_gameController.GetComponent<GameController>().PreSelectedUnit == "Priest" || _gameController.GetComponent<GameController>().PreSelectedUnit == "Priest" ){
-//			if(other.gameObject.tag=="EmenyCharacter")
-//			{
-//				if((other.gameObject.name == "EAssassin1"&&_gameControllerScript.EAssassin1IsCover == true) || (other.gameObject.name == "EAssassin2"&&_gameControllerScript.EAssassin2IsCover == true))
-//				{
-//					if(other.gameObject.name == "EAssassin1")
-//					{
-//						_gameControllerScript.EAssassin1IsCover = false;
-//						GameObject.Find("EAssassin1").GetComponentInChildren<TextMesh>().text = "EAssassin1";
-//					}
-//					else if(other.gameObject.name == "EAssassin2")
-//					{
-//						_gameControllerScript.EAssassin2IsCover = false;
-//						GameObject.Find("EAssassin2").GetComponentInChildren<TextMesh>().text = "EAssassin2";
-//					}
-//					Destroy(this.gameObject);
-//				}
-//				else
-//				{
-//					Destroy(other.gameObject);
-//				}
-//			}
-//		}
-//	}
-	
+
+	public void clearProjectiles()
+	{
+		if (magicMissile)
+			Destroy(magicMissile,0.1f);
+	}
+
 }

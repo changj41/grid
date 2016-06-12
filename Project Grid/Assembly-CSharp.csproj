@@ -235,6 +235,17 @@
      <Compile Include="Assets\Scripts\chess\warrior.cs" />
      <Compile Include="Assets\Scripts\chess\warriorCharacterClass.cs" />
      <Compile Include="Assets\Scripts\triggerProjectile_Archer.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Assassin.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_EArcher.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_EAssassin.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_EHero.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_EPriest.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_ESoldier.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_ESummoner.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_EWarrior.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Eknight.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Hero.cs" />
+     <Compile Include="Assets\Scripts\triggerProjectile_Knight.cs" />
      <Compile Include="Assets\Scripts\triggerProjectile_Priest.cs" />
      <Compile Include="Assets\Scripts\triggerProjectile_Soldier.cs" />
      <Compile Include="Assets\Scripts\triggerProjectile_Summoner.cs" />
