@@ -18,6 +18,12 @@ public class EArcher : MonoBehaviour
   	private int clickCount;
 	public string unitName;
 	public GameObject panel;
+	public Vector3 newpos;
+	public Animator ani;
+	string ClickTile;
+	Vector3 i;
+	Vector3 hitpos;
+	public GameObject AttackShot;
 
   	// Use this for initialization
 	void Start()
@@ -65,13 +71,33 @@ public class EArcher : MonoBehaviour
 	            		{
 							if(hits[i].transform.gameObject.tag == Constants.Tags.MovementRangeIndicator)
 							{
-				                showingMovementRange = false;
-				                _gameController.GetComponent<GameController>().pieceSelected = false;
-				                _gameController.GetComponent<GameController>().selectedUnit = null;
-				                clearMovementIndicators();
-				                revealed = true;
-				                moveCharacter(hits[i].transform.position);
-	              			}
+								showingMovementRange = false;
+								_gameController.GetComponent<GameController>().pieceSelected = false;
+								_gameController.GetComponent<GameController>().selectedUnit = null;
+								clearMovementIndicators();
+								revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
+								hitpos = hits[i].transform.position;
+								if(_gameController.GetComponent<GameController>().PreSelectedUnit == "EArcher1" && _gameControllerScript.EArcher1IsCover)
+								{
+									this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+									this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+									this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+									StartCoroutine(waitParticle());
+								}
+								else if(_gameController.GetComponent<GameController>().PreSelectedUnit == "EArcher2" && _gameControllerScript.EArcher2IsCover)
+								{
+									this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+									this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+									this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+									StartCoroutine(waitParticle());
+								}
+								else if((_gameController.GetComponent<GameController>().PreSelectedUnit == "EArcher1" && !_gameControllerScript.EArcher1IsCover) 
+									||(_gameController.GetComponent<GameController>().PreSelectedUnit == "EArcher2" && !_gameControllerScript.EArcher2IsCover))
+								{
+									StartCoroutine(waittimetomove(hits[i].transform.position));
+								}
+							}
 	            		}
 	          		}
 	        	}
@@ -99,13 +125,28 @@ public class EArcher : MonoBehaviour
 			{
 				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
 			}
-			else if(!_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+			else if(!_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
 			{
 				panel.transform.Find("see").gameObject.SetActive(false);
 			}
 			else if(!_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2" &&  _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
 			{
 				panel.transform.Find("see").gameObject.SetActive(false);
+			}
+		}
+		if(GameObject.Find("myinceasecard4"))
+		{
+			if(GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect && _gameController.GetComponent<GameController>().selectedUnit == "Hero1")
+			{
+				see();
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed = true;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				GameObject.Find("Hero1").GetComponent<Hero>().see();
+				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
 			}
 		}
   	}
@@ -124,8 +165,10 @@ public class EArcher : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-    	Vector3 currentPosition = this.transform.position;
-    	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		Vector3 currentPosition = this.transform.position;
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "EArcher1"){
 			if(_gameControllerScript.EArcher1IsCover){
 				_gameControllerScript.EArcher1IsCover = false;
@@ -138,45 +181,67 @@ public class EArcher : MonoBehaviour
 		}
   	}
 
-  	private void showMovementRange()
-  	{
+	private void showMovementRange()
+	{
 		List<Vector3> possibleMoves = _ArcherClass.showMovementRange(_rigidbody.position);
-    	Quaternion initQuat = Quaternion.Euler(new Vector3(90, 0, 0));
+		Quaternion initQuat = Quaternion.Euler(new Vector3(90, 0, 0));
 		string tempname = "";
-    	for(int i = 0; i < possibleMoves.Count; i++)
-    	{
-      		if(possibleMoves[i] != _rigidbody.position)
-      		{
-        		if(possibleMoves[i].x >= 0 && possibleMoves[i].x < Constants.Board.boardX)
-        		{
-          			if(possibleMoves[i].z >= 0 && possibleMoves[i].z < Constants.Board.boardZ)
-          			{
-			            Vector3 tileCoordinate = new Vector3(possibleMoves[i].x, 0.1f, possibleMoves[i].z);
-			            Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
-			            Ray ray = new Ray(this.transform.position, tileToCharDirection);
-			            RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
+		for(int i = 0; i < possibleMoves.Count; i++)
+		{
+			if(possibleMoves[i] != _rigidbody.position)
+			{
+				if(possibleMoves[i].x >= 0 && possibleMoves[i].x < Constants.Board.boardX)
+				{
+					if(possibleMoves[i].z >= 0 && possibleMoves[i].z < Constants.Board.boardZ)
+					{
+						Vector3 tileCoordinate = new Vector3(possibleMoves[i].x, 0.1f, possibleMoves[i].z);
+						Vector3 tileToCharDirection = tileCoordinate - this.transform.position;
+						Ray ray = new Ray(this.transform.position, tileToCharDirection);
+						RaycastHit[] check = Physics.RaycastAll(ray, tileToCharDirection.magnitude);
 						RaycastHit hit;
-						if(check.Length == 0)
+						if(_gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
 						{
-							GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
-							moveRangeTile.transform.SetParent(this.transform);
+							if(!_gameControllerScript.EArcher1IsCover)
+							{
+								if(check.Length == 0)
+								{
+									GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+								}
+							}
+						}
+						else if(_gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+						{
+							if(!_gameControllerScript.EArcher2IsCover)
+							{
+								if(check.Length == 0)
+								{
+									GameObject moveRangeTile = Instantiate(_greenPrefab, tileCoordinate, initQuat) as GameObject;
+									moveRangeTile.transform.SetParent(this.transform);
+								}
+							}
 						}
 						if(Physics.Raycast(ray, out hit))
 						{
-							if(check.Length == 2)
+							if(check.Length == 2 )
 							{	
+
+								print("++"+tempname+"++");
+
 								if(hit.collider.name != tempname)
 								{
+									print(hit.collider.name);
 									tempname = hit.collider.name;
+									print(tileCoordinate);
 									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
 									moveRangeTile.transform.SetParent(this.transform);
 								}
 							}
 						}
-          			}
-        		}
-      		}
-    	}
+					}
+				}
+			}
+		}
 	}
 
 	private void showUnit(bool show)
@@ -193,16 +258,7 @@ public class EArcher : MonoBehaviour
 			}
 		}
   	}
-	void OnTriggerEnter(Collider other) 
-	{
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
-		{
-			if(other.gameObject.tag=="Character")
-			{
-				Destroy(other.gameObject);
-			}
-		}
-	}
+
 	public void attack()
 	{
 		print("attack  " + this.gameObject.name);
@@ -241,37 +297,37 @@ public class EArcher : MonoBehaviour
 	}
 	public void see()
 	{
-		if(_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1" && _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
-		{
+//		if(_gameControllerScript.EArcher1IsCover && this.gameObject.name == "EArcher1" && _gameController.GetComponent<GameController>().selectedUnit == "EArcher1")
+//		{
 			GetComponentInChildren<TextMesh>().text = unitName;
+		if(this.name == "EArcher1")
+		{
 			_gameControllerScript.EArcher1IsCover = false;
-			//panel.transform.Find("see").gameObject.SetActive(true);
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-			StartCoroutine(waitParticle());
-			//			this.transform.Find("human_EArcher_Rig").gameObject.SetActive(true);
-			//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
-
 		}
-		else if(_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2"  && _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+		else if(this.name == "EArcher2")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.EArcher2IsCover = false;
-			//			panel.transform.Find("see").gameObject.SetActive(true);
+		}
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
-		}
+//		}
+//		else if(_gameControllerScript.EArcher2IsCover && this.gameObject.name == "EArcher2"  && _gameController.GetComponent<GameController>().selectedUnit == "EArcher2")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.EArcher2IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//			StartCoroutine(waitParticle());
+//		}
 	}
 	public void cannel()
 	{
@@ -310,10 +366,71 @@ public class EArcher : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		this.transform.Find("Orc_Scout").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+		if(ClickTile == "Red(Clone)")
+		{
+			StartCoroutine(waittimetomove(hitpos));
+		}
 	}
 	IEnumerator waittimetomove(Vector3 pos){
-		yield return new WaitForSeconds(2.5f);
-		moveCharacter(pos);
+		GameObject Model;
+		Model = this.transform.FindChild("Orc_Scout").gameObject;
+		Vector3 currentPosition = this.transform.position;
+		//down
+		if(pos.x < currentPosition.x)
+		{
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(pos.x > currentPosition.x)
+		{
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(pos.z < currentPosition.z)
+		{
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(pos.z > currentPosition.z)
+		{
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		newpos = pos;
+		if(!GameObject.Find("myinceasecard2") || (GameObject.Find("myinceasecard2") && !GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().isActiveAndEnabled))
+		{
+			
+		}
+		if(ClickTile == "Red(Clone)")
+		{
+			ani.SetTrigger("Attack");
+			AttackShot.GetComponent<triggerProjectile_EArcher>().shoot();
+			yield return new WaitForSeconds(1.5f);
+			if(!GameObject.Find("myinceasecard2") || (GameObject.Find("myinceasecard2") && !GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().isActiveAndEnabled))
+			{
+				yield return new WaitForSeconds(1.0f);
+				moveCharacter(pos);
+			}
+		}
+		if(ClickTile == "Green(Clone)")
+		{
+			yield return new WaitForSeconds(0.8f);
+			moveCharacter(pos);
+		}
 	}
-
+	public void TheItalianJobStep2()
+	{
+		print("!!");
+		AttackShot.GetComponent<triggerProjectile_EArcher>().shoot();
+		StartCoroutine(ForStep2());
+	}
+	IEnumerator ForStep2()
+	{
+		ani.SetTrigger("Attack");
+		yield return new WaitForSeconds(1.2f);
+		moveCharacter(newpos);
+	}
 }

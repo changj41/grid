@@ -17,6 +17,16 @@ public class ESoldier : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
+	public Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
+	public GameObject AttackShot;
+	public bool CanStep2 = false;
 
 
   	public string unitName;
@@ -73,6 +83,7 @@ public class ESoldier : MonoBehaviour
 				                _gameController.GetComponent<GameController>().selectedUnit = null;
 				                clearMovementIndicators();
 				                revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
 				                moveCharacter(hits[i].transform.position);
               				}
             			}
@@ -84,6 +95,11 @@ public class ESoldier : MonoBehaviour
 		        }
       		}
     	}
+		if(ani&&Iswalk)
+		{
+			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
+		}
+	
   	}
 
 	void OnMouseDown()
@@ -132,6 +148,21 @@ public class ESoldier : MonoBehaviour
 				panel.transform.Find("see").gameObject.SetActive(false);
 			}
 		}
+		if(GameObject.Find("myinceasecard4"))
+		{
+			if(GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect && _gameController.GetComponent<GameController>().selectedUnit == "Hero1")
+			{
+				see();
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed = true;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				GameObject.Find("Hero1").GetComponent<Hero>().see();
+				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
+			}
+		}
 	}
 
   	private void clearMovementIndicators()
@@ -147,8 +178,38 @@ public class ESoldier : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-    	Vector3 currentPosition = this.transform.position;
-    	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GameObject Model;
+		Model = this.transform.FindChild("Orc_Warrior").gameObject;
+		Vector3 currentPosition = this.transform.position;
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "ESoldier1")
 		{
@@ -218,17 +279,7 @@ public class ESoldier : MonoBehaviour
       		}
     	}
   	}
-	void OnTriggerEnter(Collider other) 
-	{
-		Debug.Log(other.gameObject.name);
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit)
-		{
-			if(other.gameObject.tag=="Character")
-			{
-				Destroy(other.gameObject);
-			}
-		}
-	}
+
 	public void attack()
 	{
 		//			showingMovementRange = true;
@@ -293,49 +344,25 @@ public class ESoldier : MonoBehaviour
 	}
 	public void see()
 	{
-		if(_gameControllerScript.ESoldier1IsCover && this.gameObject.name == "ESoldier1" && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier1")
-		{
+//		if(_gameControllerScript.ESoldier1IsCover && this.gameObject.name == "ESoldier1" && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier1")
+//		{
 			GetComponentInChildren<TextMesh>().text = unitName;
+		if(this.name == "ESoldier1")
+		{
 			_gameControllerScript.ESoldier1IsCover = false;
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-			StartCoroutine(waitParticle());
 		}
-		else if(_gameControllerScript.ESoldier2IsCover && this.gameObject.name == "ESoldier2"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier2")
+		else if(this.name == "ESoldier2")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.ESoldier2IsCover = false;
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-
-			StartCoroutine(waitParticle());
 		}
-		else if(_gameControllerScript.ESoldier3IsCover && this.gameObject.name == "ESoldier3"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier3")
+		else if(this.name == "ESoldier3")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.ESoldier3IsCover = false;
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-			StartCoroutine(waitParticle());
 		}
-		else if(_gameControllerScript.ESoldier4IsCover && this.gameObject.name == "ESoldier4"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier4")
+		else if(this.name == "ESoldier4")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.ESoldier4IsCover = false;
+		}
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
@@ -343,7 +370,45 @@ public class ESoldier : MonoBehaviour
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
-		}
+//		}
+//		else if(_gameControllerScript.ESoldier2IsCover && this.gameObject.name == "ESoldier2"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier2")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.ESoldier2IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//
+//			StartCoroutine(waitParticle());
+//		}
+//		else if(_gameControllerScript.ESoldier3IsCover && this.gameObject.name == "ESoldier3"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier3")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.ESoldier3IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//			StartCoroutine(waitParticle());
+//		}
+//		else if(_gameControllerScript.ESoldier4IsCover && this.gameObject.name == "ESoldier4"  && _gameController.GetComponent<GameController>().selectedUnit == "ESoldier4")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.ESoldier4IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//			StartCoroutine(waitParticle());
+//		}
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
@@ -421,5 +486,54 @@ public class ESoldier : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		this.transform.Find("Orc_Warrior").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	public IEnumerator waitAttackThenWalk()
+	{
+		AttackShot.GetComponent<triggerProjectile_ESoldier>().shoot();
+		yield return new WaitForSeconds(0.8f);
+		if(!GameObject.Find("myinceasecard2") || (GameObject.Find("myinceasecard2") && !GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().isActiveAndEnabled))
+		{
+			Iswalk = false;
+			yield return new WaitForSeconds(1f);
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		}
+	}
+
+	void Move()
+	{
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			ani.SetTrigger("Attack");
+			StartCoroutine(waitAttackThenWalk());
+		}
+	}
+	void checkPostion()
+	{
+		Iswalk = false;
+		this.transform.position = newpos;
+		ani.SetFloat("Speed",0);
+	}
+	public void TheItalianJobStep2()
+	{
+		AttackShot.GetComponent<triggerProjectile_ESoldier>().shoot();
+		StartCoroutine(ForStep2());
+	}
+	IEnumerator ForStep2()
+	{
+		ani.SetTrigger("Attack");
+		yield return new WaitForSeconds(1.2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
 	}
 }

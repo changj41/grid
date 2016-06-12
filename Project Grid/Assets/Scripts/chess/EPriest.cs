@@ -17,6 +17,15 @@ public class EPriest : MonoBehaviour
   	private bool revealed;
   	private int clickCount;
 	public GameObject panel;
+	public Vector3 newpos;
+	Vector3 i;
+	public Animator ani;
+	public bool Iswalk;
+	string ClickTile;
+	bool walkafterattack = false;
+	Vector3 AttackPos;
+	string walkarround;
+	public GameObject AttackShot;
 
   	public string unitName;
 
@@ -72,6 +81,7 @@ public class EPriest : MonoBehaviour
                 				_gameController.GetComponent<GameController>().selectedUnit = null;
                 				clearMovementIndicators();
                 				revealed = true;
+								ClickTile = hits[i].transform.gameObject.name;
                 				moveCharacter(hits[i].transform.position);
               				}
             			}
@@ -83,6 +93,10 @@ public class EPriest : MonoBehaviour
         		}
       		}
     	}
+		if(ani&&Iswalk)
+		{
+			ani.SetFloat("Speed",1,0.1f,Time.deltaTime);
+		}
   	}
 
   	void OnMouseDown()
@@ -113,6 +127,21 @@ public class EPriest : MonoBehaviour
 				panel.transform.Find("see").gameObject.SetActive(false);			
 			}
 		}
+		if(GameObject.Find("myinceasecard4"))
+		{
+			if(GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect && _gameController.GetComponent<GameController>().selectedUnit == "Hero1")
+			{
+				see();
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed = true;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				GameObject.Find("Hero1").GetComponent<Hero>().see();
+				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
+			}
+		}
   	}
 
   	private void clearMovementIndicators()
@@ -128,8 +157,66 @@ public class EPriest : MonoBehaviour
 
   	private void moveCharacter(Vector3 newPosition)
   	{
-    	Vector3 currentPosition = this.transform.position;
-    	this.transform.position = new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		GameObject Model;
+		Model = this.transform.FindChild("Orc_Wizard").gameObject;
+		Vector3 currentPosition = this.transform.position;
+		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
+		//down
+		if(newPosition.x < currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "down";
+			i = new Vector3(0,270,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//up
+		else if(newPosition.x > currentPosition.x && newPosition.z == currentPosition.z)
+		{
+			walkarround = "up";
+			i = new Vector3(0,90,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//right
+		else if(newPosition.z < currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "right";
+			i = new Vector3(0,180,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//left
+		else if(newPosition.z > currentPosition.z && newPosition.x == currentPosition.x)
+		{
+			walkarround = "left";
+			i = new Vector3(0,0,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightup
+		else if(newPosition.z < currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "rightup";
+			i = new Vector3(0,135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftup
+		else if(newPosition.z > currentPosition.z && newPosition.x > currentPosition.x)
+		{
+			walkarround = "leftup";
+			i = new Vector3(0,45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//rightdown
+		else if(newPosition.z < currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "rightdown";
+			i = new Vector3(0,-135,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
+		//leftdown
+		else if(newPosition.z > currentPosition.z && newPosition.x < currentPosition.x)
+		{
+			walkarround = "leftdown";
+			i = new Vector3(0,-45,0);
+			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+		}
 		if(this.gameObject.name == "EPriest1")
 		{
 			if(_gameControllerScript.EPriest1IsCover)
@@ -185,32 +272,6 @@ public class EPriest : MonoBehaviour
       		}
     	}
   	}
-
-	void OnTriggerEnter(Collider other) {
-		if(this.gameObject.name == _gameController.GetComponent<GameController>().PreSelectedUnit){
-			if(other.gameObject.tag=="Character")
-			{
-				if((other.gameObject.name == "Assassin1"&&_gameControllerScript.Assassin1IsCover == true) || (other.gameObject.name == "Assassin2"&&_gameControllerScript.Assassin2IsCover == true))
-				{
-					if(other.gameObject.name == "Assassin1")
-					{
-						_gameControllerScript.Assassin1IsCover = false;
-						GameObject.Find("Assassin1").GetComponentInChildren<TextMesh>().text = "Assassin1";
-					}
-					else if(other.gameObject.name == "Assassin2")
-					{
-						_gameControllerScript.Assassin2IsCover = false;
-						GameObject.Find("Assassin2").GetComponentInChildren<TextMesh>().text = "Assassin2";
-					}
-					Destroy(this.gameObject);
-				}
-				else
-				{
-					Destroy(other.gameObject);
-				}
-			}
-		}
-	}
 	public void attack()
 	{
 		//			showingMovementRange = true;
@@ -248,32 +309,38 @@ public class EPriest : MonoBehaviour
 	}
 	public void see()
 	{
-		if(_gameControllerScript.EPriest1IsCover && this.gameObject.name == "EPriest1" && _gameController.GetComponent<GameController>().selectedUnit == "EPriest1")
-		{
+//		if(_gameControllerScript.EPriest1IsCover && this.gameObject.name == "EPriest1" && _gameController.GetComponent<GameController>().selectedUnit == "EPriest1")
+//		{
 			GetComponentInChildren<TextMesh>().text = unitName;
+		if(this.name == "EPriest1")
+		{
 			_gameControllerScript.EPriest1IsCover = false;
-			panel.SetActive(false);
-			_gameController.GetComponent<GameController>().selectedUnit = "";
-			_gameController.GetComponent<GameController>().pieceSelected = false;
-			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
-			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
-			StartCoroutine(waitParticle());
 		}
-		else if(_gameControllerScript.EPriest2IsCover && this.gameObject.name == "EPriest2"  && _gameController.GetComponent<GameController>().selectedUnit == "EPriest2")
+		if(this.name == "EPriest2")
 		{
-			GetComponentInChildren<TextMesh>().text = unitName;
 			_gameControllerScript.EPriest2IsCover = false;
+		}
 			panel.SetActive(false);
 			_gameController.GetComponent<GameController>().selectedUnit = "";
 			_gameController.GetComponent<GameController>().pieceSelected = false;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
-		}
+//		}
+//		else if(_gameControllerScript.EPriest2IsCover && this.gameObject.name == "EPriest2"  && _gameController.GetComponent<GameController>().selectedUnit == "EPriest2")
+//		{
+//			GetComponentInChildren<TextMesh>().text = unitName;
+//			_gameControllerScript.EPriest2IsCover = false;
+//			panel.SetActive(false);
+//			_gameController.GetComponent<GameController>().selectedUnit = "";
+//			_gameController.GetComponent<GameController>().pieceSelected = false;
+//			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+//			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
+//
+//			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
+//			StartCoroutine(waitParticle());
+//		}
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
@@ -320,6 +387,61 @@ public class EPriest : MonoBehaviour
 		yield return new WaitForSeconds(1.5f);
 		this.transform.Find("Orc_Wizard").gameObject.SetActive(true);
 		this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(false);
+	}
+	IEnumerator waitAttackThenWalk()
+	{
+		AttackShot.GetComponent<triggerProjectile_EPriest>().shoot();
+		yield return new WaitForSeconds(0.8f);
+		if(!GameObject.Find("myinceasecard2") || (GameObject.Find("myinceasecard2") && !GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().isActiveAndEnabled))
+		{
+			Iswalk = false;
+			yield return new WaitForSeconds(1f);
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		}
+	}
+
+	void Move()
+	{
+		if(ClickTile == "Green(Clone)")
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+			print("walk");
+		}
+		else if(ClickTile == "Red(Clone)" && !walkafterattack)
+		{
+
+
+			if(walkarround == "up") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z);//up
+			if(walkarround == "down") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z);
+			if(walkarround == "right") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z+1f);//right
+			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
+			if(walkarround == "rightup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftup") AttackPos = new Vector3(newpos.x-1f,newpos.y,newpos.z-1f);
+			if(walkarround == "rightdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z+1f);
+			if(walkarround == "leftdown") AttackPos = new Vector3(newpos.x+1f,newpos.y,newpos.z-1f);
+			ani.SetTrigger("Attack");
+			StartCoroutine(waitAttackThenWalk());
+		}
+	}
+	void checkPostion()
+	{
+		Iswalk = false;
+		this.transform.position = newpos;
+		ani.SetFloat("Speed",0);
+	}
+	public void TheItalianJobStep2()
+	{
+		AttackShot.GetComponent<triggerProjectile_EPriest>().shoot();
+		StartCoroutine(ForStep2());
+	}
+	IEnumerator ForStep2()
+	{
+		ani.SetTrigger("Attack");
+		yield return new WaitForSeconds(1.2f);
+		Iswalk = true;
+		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
 	}
 }
 

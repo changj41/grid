@@ -67,8 +67,9 @@ public class RedGridCheck : MonoBehaviour {
 				Destroy(this.gameObject);
 			}
 		}
-		else if((ColliderGameobjectName == "Summoner1"&&_gameController.GetComponent<GameController>().SummnonerIsCover)
-			||(ColliderGameobjectName == "ESummoner1"&&_gameController.GetComponent<GameController>().ESummnonerIsCover))
+		else if((ColliderGameobjectName == "Summoner1"&& _gameController.GetComponent<GameController>().SummnonerIsCover)
+			||(ColliderGameobjectName == "ESummoner1"&& _gameController.GetComponent<GameController>().ESummnonerIsCover)
+			||(ColliderGameobjectName == "Summoner1"&& GameObject.Find("myinceasecard1")/*.GetComponent<InceaseCard>().KingWithoutfearUsed*/))
 		{
 			if(SelectName == "Soldier1"||SelectName == "Soldier2"||SelectName == "Soldier3"||SelectName =="Soldier4"
 				||SelectName == "Knight1"||SelectName == "Knight2"
@@ -82,7 +83,8 @@ public class RedGridCheck : MonoBehaviour {
 			}
 		}
 		else if((ColliderGameobjectName == "Hero1"&&_gameController.GetComponent<GameController>().HeroIsCover)
-			||(ColliderGameobjectName == "EHero1"&&_gameController.GetComponent<GameController>().EHeroIsCover))
+			||(ColliderGameobjectName == "EHero1"&&_gameController.GetComponent<GameController>().EHeroIsCover)
+			||(ColliderGameobjectName == "Hero1"&& GameObject.Find("myinceasecard6").GetComponent<InceaseCard>().TheForceOfHeroesUsed))
 		{
 			if(SelectName == "Soldier1"||SelectName == "Soldier2"||SelectName == "Soldier3"||SelectName =="Soldier4"
 				||SelectName == "Knight1"||SelectName == "Knight2"
