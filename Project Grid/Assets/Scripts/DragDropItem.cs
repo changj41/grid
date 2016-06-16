@@ -22,15 +22,15 @@ public class DragDropItem : UIDragDropItem{
 	protected override void OnDragDropRelease (GameObject surface)
 	{
 		base.OnDragDropRelease(surface);
-		print(surface.tag);
+		print(surface.tag + " " + surface.name);
 		print(this.name);
-		name = this.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().spriteName;
+		name = this.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().spriteName;
 		if(surface.tag == "SaveBox" && this.tag != "DropUIClone")
 		{
 			go = NGUITools.AddChild(surface,item);
 			go.transform.GetComponent<DragDropItem>().item = Resources.Load<GameObject>(Constants.Path.DropUI);
 			print(name);
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().spriteName = name;
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().spriteName = name;
 			go.transform.rotation = Quaternion.Euler(0,0,-45);
 			go.transform.localPosition = Vector3.zero;
 			ColorSet();
@@ -57,11 +57,11 @@ public class DragDropItem : UIDragDropItem{
 			Destroy(surface);
 			go = NGUITools.AddChild(GameObject.Find(surface.transform.parent.name),item);
 			go.transform.GetComponent<DragDropItem>().item = Resources.Load<GameObject>(Constants.Path.DropUI);
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().spriteName = name;
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().spriteName = name;
 			go.transform.rotation = Quaternion.Euler(0,0,-45);
 			go.transform.localPosition = Vector3.zero;
 			ColorSet();
-			gameUI.DestroySet(surface.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().spriteName,surface.tag);
+			gameUI.DestroySet(surface.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().spriteName,surface.tag);
 		}
 //		else if (surface.tag == "UIRight2")
 		else if (surface.tag != "SaveBox" || surface.tag != "DropUIClone")
@@ -72,37 +72,37 @@ public class DragDropItem : UIDragDropItem{
 	}
 	void ColorSet()
 	{
-		if(name == "World_RoseOfWinds")
+		if(name == "UI_1000_Type_Summoner")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(255/255f,236/255f,92/255f,255/255f);						
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(255/255f,236/255f,92/255f,255/255f);						
 		}
-		else if(name == "crossed-swords")
+		else if(name == "UI_1000_Type_Hero")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(23/255f,234/255f,255/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(23/255f,234/255f,255/255f,255/255f);
 		}
-		else if(name == "broadsword")
+		else if(name == "UI_1000_Type_Worror")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(83/255f,232/255f,255/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(83/255f,232/255f,255/255f,255/255f);
 		}
-		else if(name == "orb-wand")
+		else if(name == "UI_1000_Type_Pastor")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(87/255f,240/255f,85/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(87/255f,240/255f,85/255f,255/255f);
 		}
-		else if(name == "spear-feather")
+		else if(name == "UI_1000_Type_Knight")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(255/255f,239/255f,156/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(255/255f,239/255f,156/255f,255/255f);
 		}
-		else if(name == "plain-dagger")
+		else if(name == "UI_1000_Type_Assassin")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(255/255f,195/255f,53/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(255/255f,195/255f,53/255f,255/255f);
 		}
-		else if(name == "high-shot")
+		else if(name == "UI_1000_Type_Archer")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(255/255f,255/255f,10/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(255/255f,255/255f,10/255f,255/255f);
 		}
-		else if(name == "round-shield")
+		else if(name == "UI_1000_Type_Soldier")
 		{
-			go.transform.FindChild("UIRight2_1_1_1").GetComponent<UISprite>().color = new Color(187/255f,255/255f,69/255f,255/255f);
+			go.transform.FindChild("UI1000_Pic_Icon").GetComponent<UISprite>().color = new Color(187/255f,255/255f,69/255f,255/255f);
 		}
 	}
 	void Start () {

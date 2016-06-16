@@ -63,7 +63,7 @@ public class Assassin : MonoBehaviour
 			ScreenInput input = _inputManager.GetInput();
 	      	if(input != null)
       		{
-        		if(clickCount >= 1)
+        		if(clickCount >= 0)
        			{
 					clickCount = 0;
 		          	Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -96,46 +96,40 @@ public class Assassin : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide%2 == 0)
+		if(_gameControllerScript.PlayerSide%2 == 0 && !_gameControllerScript.SideEnd && _gameControllerScript.PlayerSide != 0)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == "" &&!_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn &&!_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				if(_gameControllerScript.Assassin1IsCover && this.gameObject.name == "Assassin1" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin1")
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(_gameControllerScript.Assassin1IsCover && this.gameObject.name == "Assassin1" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin1")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(_gameControllerScript.Assassin2IsCover && this.gameObject.name == "Assassin2" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin2")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.Assassin1IsCover && this.gameObject.name == "Assassin1" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
+					else if(!_gameControllerScript.Assassin2IsCover && this.gameObject.name == "Assassin2" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
-				else if(_gameControllerScript.Assassin2IsCover && this.gameObject.name == "Assassin2" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin2")
-				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				else if(!_gameControllerScript.Assassin1IsCover && this.gameObject.name == "Assassin1" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin1")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-				else if(!_gameControllerScript.Assassin2IsCover && this.gameObject.name == "Assassin2" && _gameController.GetComponent<GameController>().selectedUnit == "Assassin2")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
-			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
-				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
-				}
-				this.gameObject.GetComponent<Assassin>().see();
 			}
 		}
 		if(GameObject.Find("myinceasecard2"))
@@ -143,11 +137,7 @@ public class Assassin : MonoBehaviour
 			if(GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect)
 			{
 				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect = false;
-				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobUsed = true;
 				GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				Vector3 tmp = this.transform.position;
 				this.transform.position = GameObject.Find("Summoner1").transform.position;
 				GameObject.Find("Summoner1").transform.position = tmp;
@@ -183,6 +173,75 @@ public class Assassin : MonoBehaviour
 				if(_gameController.GetComponent<GameController>().PreSelectedUnit == "EPriest1"||_gameController.GetComponent<GameController>().PreSelectedUnit == "EPriest2")
 				{
 					GameObject.Find(_gameController.GetComponent<GameController>().PreSelectedUnit).GetComponent<EPriest>().TheItalianJobStep2();
+				}
+			}
+		}
+		if(GameObject.Find("myinceasecard10"))
+		{
+			if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 2)
+			{
+				this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+				this.transform.FindChild("Character").GetComponent<MeshRenderer>().enabled = true;
+				this.transform.FindChild("PF_AssassinGirl").gameObject.SetActive(false);
+				if(!_gameControllerScript.Assassin1IsCover && this.name == "Assassin1")
+				{
+					_gameControllerScript.Assassin1IsCover = true;
+					this.GetComponentInChildren<TextMesh>().text = "Assassin1\n(cover)";
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				}
+				else if(!_gameControllerScript.Assassin2IsCover && this.name == "Assassin2")
+				{
+					_gameControllerScript.Assassin2IsCover = true;
+					this.GetComponentInChildren<TextMesh>().text = "Assassin2\n(cover)";
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				}
+			}
+			else if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 1)
+			{
+				Vector3 tmp = this.transform.position;
+				if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Assassin1IsCover && this.name == "Assassin1")
+				{
+					this.transform.position = GameObject.Find("Priest1").transform.position;
+					GameObject.Find("Priest1").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Assassin2IsCover && this.name == "Assassin2")
+				{
+					this.transform.position = GameObject.Find("Priest1").transform.position;
+					GameObject.Find("Priest1").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Assassin1IsCover && this.name == "Assassin1")
+				{
+					this.transform.position = GameObject.Find("Priest2").transform.position;
+					GameObject.Find("Priest2").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Assassin2IsCover && this.name == "Assassin2")
+				{
+					this.transform.position = GameObject.Find("Priest2").transform.position;
+					GameObject.Find("Priest2").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount == 0)
+				{
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,255/255f,255/255f,80/255f);
 				}
 			}
 		}
@@ -352,6 +411,7 @@ public class Assassin : MonoBehaviour
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
 		}
+		_gameControllerScript.SideEnd = true;
 	}
 	public void cannel()
 	{
@@ -487,6 +547,7 @@ public class Assassin : MonoBehaviour
 		ThisAssassin.GetComponent<Animation>().CrossFade("Idle");
 		Iswalk = false;
 		this.transform.position = newpos;
+		_gameControllerScript.SideEnd = true;
 	}
 }
 

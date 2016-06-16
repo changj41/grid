@@ -59,7 +59,7 @@ public class Hero : MonoBehaviour
       		ScreenInput input = _inputManager.GetInput();
       		if(input != null)
       		{
-        		if(clickCount >= 1)
+        		if(clickCount >= 0)
         		{
           			clickCount = 0;
           			Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -92,44 +92,38 @@ public class Hero : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide%2 == 0)
+		if(_gameControllerScript.PlayerSide%2 == 0 && !_gameControllerScript.SideEnd && _gameControllerScript.PlayerSide !=0)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == ""&&!_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn &&!_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				if(GameObject.Find("myinceasecard4"))
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 				{
-					if(!GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed)
+					if(GameObject.Find("myinceasecard3"))
 					{
-						GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().Play();
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(GameObject.Find("myinceasecard4"))
+					{
+						if(!GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed)
+						{
+							GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().Play();
+						}
+					}
+					if(_gameControllerScript.HeroIsCover)
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.HeroIsCover)
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
 					}
 				}
-				if(_gameControllerScript.HeroIsCover)
-				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				else if(!_gameControllerScript.HeroIsCover)
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
-			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
-				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
-				}
-				this.gameObject.GetComponent<Hero>().see();
 			}
 		}
 		if(GameObject.Find("myinceasecard2"))
@@ -137,11 +131,7 @@ public class Hero : MonoBehaviour
 			if(GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect)
 			{
 				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect = false;
-				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobUsed = true;
 				GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				Vector3 tmp = this.transform.position;
 				this.transform.position = GameObject.Find("Summoner1").transform.position;
 				GameObject.Find("Summoner1").transform.position = tmp;
@@ -178,6 +168,36 @@ public class Hero : MonoBehaviour
 				{
 					GameObject.Find(_gameController.GetComponent<GameController>().PreSelectedUnit).GetComponent<EPriest>().TheItalianJobStep2();
 				}
+			}
+		}
+		if(GameObject.Find("myinceasecard10"))
+		{
+			if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 2)
+			{
+				if(!_gameControllerScript.HeroIsCover)
+				{
+					print("1");
+					_gameControllerScript.HeroIsCover = true;
+					this.GetComponentInChildren<TextMesh>().text = "Hero\n(cover)";
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				}
+			}
+			else if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 1)
+			{
+				print("2");
+				GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+				_gameControllerScript.MindControlTurnOn = false;
+				GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+				Vector3 tmp = this.transform.position;
+				if(_gameControllerScript.PreSelectedUnit == "Priest1")
+				{
+					this.transform.position = GameObject.Find("Priest1").transform.position;
+					GameObject.Find("Priest1").transform.position = tmp;
+				}
+				_gameControllerScript.SideEnd = true;
+				if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount == 0)
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,0/255f,0/255f,255/255f);
 			}
 		}
   	}
@@ -295,7 +315,7 @@ public class Hero : MonoBehaviour
 			}
 			else
 			{
-				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
+				GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 			}
 		}
 	}
@@ -313,11 +333,21 @@ public class Hero : MonoBehaviour
 
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
+			if(GameObject.Find("myinceasecard4"))
+			{
+				if(!GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed)
+				{
+					GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+					GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+					GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+				}
+			}
 		}
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
 		}
+		_gameControllerScript.SideEnd = true;
 	}
 	public void cannel()
 	{
@@ -347,7 +377,7 @@ public class Hero : MonoBehaviour
 			{
 				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
 				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard4").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
 			}
 		}
 	}
@@ -361,5 +391,15 @@ public class Hero : MonoBehaviour
 		AttackShot.GetComponent<triggerProjectile_Hero>().shoot();
 		yield return new WaitForSeconds(2.0f);
 		this.transform.position = newpos;
+		if(GameObject.Find("myinceasecard4"))
+		{
+			if(!GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchUsed)
+			{
+				GameObject.Find("myinceasecard4").GetComponent<InceaseCard>().MagicWatchSelect = false;
+				GameObject.Find("myinceasecard4").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+			}
+		}
+		_gameControllerScript.SideEnd = true;
 	}
 }

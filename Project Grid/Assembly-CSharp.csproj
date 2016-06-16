@@ -202,6 +202,7 @@
      <Compile Include="Assets\Scripts\GridMaker.cs" />
      <Compile Include="Assets\Scripts\ICharacterClass.cs" />
      <Compile Include="Assets\Scripts\InputManager.cs" />
+     <Compile Include="Assets\Scripts\NGUIChangeTexture.cs" />
      <Compile Include="Assets\Scripts\RedGridCheck.cs" />
      <Compile Include="Assets\Scripts\SaveBox.cs" />
      <Compile Include="Assets\Scripts\UI\GameUI.cs" />
@@ -209,6 +210,7 @@
      <Compile Include="Assets\Scripts\WhenNotClick.cs" />
      <Compile Include="Assets\Scripts\WhenOKClick.cs" />
      <Compile Include="Assets\Scripts\WhenSeeClick.cs" />
+     <Compile Include="Assets\Scripts\WhensideendClick.cs" />
      <Compile Include="Assets\Scripts\chess\Archer.cs" />
      <Compile Include="Assets\Scripts\chess\ArcherCharacterClass.cs" />
      <Compile Include="Assets\Scripts\chess\Assassin.cs" />

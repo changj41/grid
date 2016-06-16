@@ -100,7 +100,7 @@ public class Ewarrior : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected &&  !_gameControllerScript.PerceptionProphecySelectTrunOn)
 		{
 			panel.SetActive(true);
 			_gameController.GetComponent<GameController>().pieceSelected = true;
@@ -138,6 +138,26 @@ public class Ewarrior : MonoBehaviour
 				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				GameObject.Find("Hero1").GetComponent<Hero>().see();
 				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
+			}
+		}
+		if(GameObject.Find("myinceasecard11"))
+		{
+			if(GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecySelect && (_gameController.GetComponent<GameController>().PreSelectedUnit == "Priest1" || _gameController.GetComponent<GameController>().PreSelectedUnit == "Priest2"))
+			{
+				if((this.name == "EWarrior1" && _gameControllerScript.EWarrior1IsCover)||(this.name == "EWarrior2" && _gameControllerScript.EWarrior2IsCover))
+				{
+					see();
+					GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecySelect = false;
+					_gameControllerScript.PerceptionProphecySelectTrunOn = false;
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().ResetDefaultColor();
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().enabled = false;
+					GameObject.Find("myinceasecard11").GetComponent<TweenAlpha>().enabled = false;
+				}
+				if(GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecyCount ==0)
+				{
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+					GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecyUse = true;
+				}
 			}
 		}
   	}

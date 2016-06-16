@@ -27,6 +27,10 @@ public class warrior : MonoBehaviour
 	string walkarround;
 	AttackPoint _AttackPoint;
   	public string unitName;
+	public int twiceAttackCount = 0;
+	public bool twiceAttackTrunOn;
+	public int SacrificeHitCount = 0;
+	public bool SacrificeHitTrunOn;
 
   	// Use this for initialization
   	void Start()
@@ -63,7 +67,7 @@ public class warrior : MonoBehaviour
       		ScreenInput input = _inputManager.GetInput();
       		if(input != null)
       		{
-        		if(clickCount >= 1)
+        		if(clickCount >= 0)
         		{
           			clickCount = 0;
           			Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -100,47 +104,180 @@ public class warrior : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide%2 == 0)
+		if(_gameControllerScript.PlayerSide%2 == 0 && !_gameControllerScript.SideEnd && _gameControllerScript.PlayerSide!=0)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == "" &&!_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn &&!_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected /*&& !GameObject.Find("myinceasecard9").GetComponent<InceaseCard>().SacrificeHitSelect*/)
 				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
+					else if(!_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
-				else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+//				else if(GameObject.Find("myinceasecard9").GetComponent<InceaseCard>().SacrificeHitSelect)
+//				{
+//					_gameControllerScript.SacrificeHitSelectName = this.name;
+//					this.SacrificeHitCount = 2;
+//					this.SacrificeHitTrunOn = true;
+//				}
+			}
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName !="" && _gameControllerScript.TwoKnivesBatterName == "")
+			{
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected && _gameControllerScript.SacrificeHitSelectName ==this.name)
 				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				else if(!_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-				else if(!_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
+					else if(!_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
 			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
+			if(_gameControllerScript.TwoKnivesBatterName != "" )
 			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected && _gameControllerScript.TwoKnivesBatterName ==this.name)
 				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+
+					}
+					else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
+					else if(!_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
-				this.gameObject.GetComponent<warrior>().see();
+			}
+			if(GameObject.Find("myinceasecard10"))
+			{
+				if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 2)
+				{
+					this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+					this.transform.FindChild("Character").GetComponent<MeshRenderer>().enabled = true;
+					this.transform.FindChild("human_warrior_Rig").gameObject.SetActive(false);
+					if(!_gameControllerScript.Warrior1IsCover && this.name == "Warrior1")
+					{
+						_gameControllerScript.Warrior1IsCover = true;
+						this.GetComponentInChildren<TextMesh>().text = "Warrior1\n(cover)";
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					}
+					else if(!_gameControllerScript.Warrior2IsCover && this.name == "Warrior2")
+					{
+						_gameControllerScript.Warrior2IsCover = true;
+						this.GetComponentInChildren<TextMesh>().text = "Warrior2\n(cover)";
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					}
+				}
+				else if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 1)
+				{
+					Vector3 tmp = this.transform.position;
+					if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Warrior1IsCover && this.name == "Warrior1")
+					{
+						this.transform.position = GameObject.Find("Priest1").transform.position;
+						GameObject.Find("Priest1").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					else if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Warrior2IsCover && this.name == "Warrior2")
+					{
+						this.transform.position = GameObject.Find("Priest1").transform.position;
+						GameObject.Find("Priest1").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Warrior1IsCover && this.name == "Warrior1")
+					{
+						this.transform.position = GameObject.Find("Priest2").transform.position;
+						GameObject.Find("Priest2").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Warrior2IsCover && this.name == "Warrior2")
+					{
+						this.transform.position = GameObject.Find("Priest2").transform.position;
+						GameObject.Find("Priest2").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount == 0)
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,255/255f,255/255f,80/255f);
+				}
 			}
 		}
 		if(GameObject.Find("myinceasecard2"))
@@ -148,11 +285,7 @@ public class warrior : MonoBehaviour
 			if(GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect)
 			{
 				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect = false;
-				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobUsed = true;
 				GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				Vector3 tmp = this.transform.position;
 				this.transform.position = GameObject.Find("Summoner1").transform.position;
 				GameObject.Find("Summoner1").transform.position = tmp;
@@ -189,6 +322,19 @@ public class warrior : MonoBehaviour
 				{
 					GameObject.Find(_gameController.GetComponent<GameController>().PreSelectedUnit).GetComponent<EPriest>().TheItalianJobStep2();
 				}
+			}
+		}
+		if(GameObject.Find("myinceasecard9"))
+		{
+			if(GameObject.Find("myinceasecard9").GetComponent<InceaseCard>().SacrificeHitSelect)
+			{
+				_gameControllerScript.SacrificeHitSelectName = this.name;
+				GameObject.Find("myinceasecard9").GetComponent<InceaseCard>().SacrificeHitSelect = false;
+				GameObject.Find("myinceasecard9").GetComponent<InceaseCard>().SacrificeHitUsed = true;
+				GameObject.Find("myinceasecard9").GetComponent<BoxCollider>().enabled = false;
+				GameObject.Find("myinceasecard9").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				this.SacrificeHitCount = 2;
+				this.SacrificeHitTrunOn = true;
 			}
 		}
   	}
@@ -354,9 +500,43 @@ public class warrior : MonoBehaviour
 				GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(M&A)";
 			}
 		}
+		else if(GameObject.Find("myinceasecard8"))
+		{
+			if(GameObject.Find("myinceasecard8").GetComponent<InceaseCard>().TwoKnivesBatterSelect)
+			{
+				showingMovementRange = true;
+				showMovementRange();
+			}
+		}
+		if(twiceAttackCount>0)
+		{
+			twiceAttackCount--;
+		}
+		else if(twiceAttackCount<=0 && twiceAttackTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			twiceAttackTrunOn = false;
+		}
+		if(SacrificeHitCount>0)
+		{
+			SacrificeHitCount--;
+		}
+		else if(SacrificeHitCount<0 && SacrificeHitTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			SacrificeHitTrunOn = false;
+		}
 	}
 	public void see()
 	{
+		if(!_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior2" && GameObject.Find("myinceasecard8"))
+		{
+			GameObject.Find("myinceasecard8").GetComponent<TweenAlpha>().Play();
+		}
+		if(!_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior1" && GameObject.Find("myinceasecard8"))
+		{
+			GameObject.Find("myinceasecard8").GetComponent<TweenAlpha>().Play();
+		}
 		if(_gameControllerScript.Warrior1IsCover && this.gameObject.name == "Warrior1" && _gameController.GetComponent<GameController>().selectedUnit == "Warrior1")
 		{
 			GetComponentInChildren<TextMesh>().text = unitName;
@@ -368,6 +548,24 @@ public class warrior : MonoBehaviour
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
+			if(!GameObject.Find("myinceasecard8") && !GameObject.Find("myinceasecard9")) 
+			{
+				print("1");
+				_gameControllerScript.SideEnd = true;
+			}
+			if(GameObject.Find("myinceasecard9") && !SacrificeHitTrunOn) 
+			{
+				_gameControllerScript.SideEnd = true;
+			}
+			if(GameObject.Find("myinceasecard8") && twiceAttackTrunOn)
+			{
+				if(!GameObject.Find("myinceasecard8").GetComponent<InceaseCard>().TwoKnivesBatterSelect)
+				{
+					print("2");
+					_gameControllerScript.SideEnd = true;
+				}
+			}
+			
 		}
 		else if(_gameControllerScript.Warrior2IsCover && this.gameObject.name == "Warrior2"  && _gameController.GetComponent<GameController>().selectedUnit == "Warrior2")
 		{
@@ -380,11 +578,48 @@ public class warrior : MonoBehaviour
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
+			if(!GameObject.Find("myinceasecard8") && !GameObject.Find("myinceasecard9")) 
+			{
+				print("1");
+				_gameControllerScript.SideEnd = true;
+			}
+			if(GameObject.Find("myinceasecard9") && !SacrificeHitTrunOn) 
+			{
+				_gameControllerScript.SideEnd = true;
+			}
+			if(GameObject.Find("myinceasecard8") && twiceAttackTrunOn)
+			{
+				if(!GameObject.Find("myinceasecard8").GetComponent<InceaseCard>().TwoKnivesBatterSelect)
+				{
+					print("2");
+					_gameControllerScript.SideEnd = true;
+				}
+			}
+		}
+		if(twiceAttackCount>0)
+		{
+			twiceAttackCount--;
+		}
+		else if(twiceAttackCount<=0 && twiceAttackTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			twiceAttackTrunOn = false;
+		}
+
+		if(SacrificeHitCount>0)
+		{
+			SacrificeHitCount--;
+		}
+		else if(SacrificeHitCount<=0 && SacrificeHitTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			SacrificeHitTrunOn = false;
 		}
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
 		}
+
 	}
 	public void cannel()
 	{
@@ -437,7 +672,6 @@ public class warrior : MonoBehaviour
 		Iswalk = true;
 		if(!((_gameControllerScript.AttackedGridName == "EAssassin1" && _gameControllerScript.EAssassin1IsCover)||(_gameControllerScript.AttackedGridName == "EAssassin2" && _gameControllerScript.EAssassin2IsCover)))
 		{
-			print("11");
 			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));	
 		}
 	}
@@ -460,14 +694,12 @@ public class warrior : MonoBehaviour
 			if(walkarround == "left") AttackPos = new Vector3(newpos.x,newpos.y,newpos.z-1f);
 			if(AttackPos != this.gameObject.transform.position)
 			{
-				print("1");
 				Iswalk = true;
 				walkafterattack = true;
 				iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",AttackPos,"speed",4f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
 			}
 			else
 			{
-				print("2");
 				walkafterattack = true;
 				Move();
 			}
@@ -475,7 +707,6 @@ public class warrior : MonoBehaviour
 		else if(walkafterattack)
 		{
 			ani.SetFloat("Speed",0);
-			print("3");
 			ani.SetTrigger("Attack");
 			StartCoroutine(waitAttackThenWalk());
 //			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
@@ -488,5 +719,23 @@ public class warrior : MonoBehaviour
 		Iswalk = false;
 		this.transform.position = newpos;
 		ani.SetFloat("Speed",0);
+		if(twiceAttackCount<=0 && twiceAttackTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			twiceAttackTrunOn = false;
+		}
+		if(SacrificeHitCount>0)
+		{
+			SacrificeHitCount--;
+		}
+		else if(SacrificeHitCount<=0 && SacrificeHitTrunOn)
+		{
+			_gameControllerScript.SideEnd = true;
+			SacrificeHitTrunOn = false;
+		}
+		else
+		{
+			_gameControllerScript.SideEnd = true;	
+		}
 	}
 }
