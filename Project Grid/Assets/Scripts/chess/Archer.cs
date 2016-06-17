@@ -58,7 +58,7 @@ public class Archer : MonoBehaviour
 			ScreenInput input = _inputManager.GetInput();
 			if(input != null)
 			{
-		      	if(clickCount >= 1)
+		      	if(clickCount >= 0)
 	        	{
 	          		clickCount = 0;
 	          		Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -112,44 +112,38 @@ public class Archer : MonoBehaviour
 
 	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide%2 == 0)
+		if(_gameControllerScript.PlayerSide%2 == 0&& !_gameControllerScript.SideEnd && _gameControllerScript.PlayerSide!=0)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == "" &&!_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn &&!_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				if(this.gameObject.name == "Archer1" &&_gameControllerScript.Archer1IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 				{
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(this.gameObject.name == "Archer1" &&_gameControllerScript.Archer1IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+					{
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(this.gameObject.name == "Archer2" &&_gameControllerScript.Archer2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+					{
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					if(this.gameObject.name == "Archer1" && !_gameControllerScript.Archer1IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
+					else if(this.gameObject.name == "Archer2" && !_gameControllerScript.Archer2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
-				else if(this.gameObject.name == "Archer2" &&_gameControllerScript.Archer2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
-				{
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				if(this.gameObject.name == "Archer1" && !_gameControllerScript.Archer1IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer1")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-				else if(this.gameObject.name == "Archer2" && !_gameControllerScript.Archer2IsCover &&  _gameController.GetComponent<GameController>().selectedUnit == "Archer2")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
-				}
-			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
-			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
-				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
-				}
-				this.gameObject.GetComponent<Archer>().see();
 			}
 		}
 		if(GameObject.Find("myinceasecard2"))
@@ -157,11 +151,7 @@ public class Archer : MonoBehaviour
 			if(GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect)
 			{
 				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect = false;
-				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobUsed = true;
 				GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				Vector3 tmp = this.transform.position;
 				this.transform.position = GameObject.Find("Summoner1").transform.position;
 				GameObject.Find("Summoner1").transform.position = tmp;
@@ -200,6 +190,73 @@ public class Archer : MonoBehaviour
 				}
 			}
 		}
+		if(GameObject.Find("myinceasecard10"))
+		{
+			if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 2)
+			{
+				this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+				this.transform.FindChild("Character").GetComponent<MeshRenderer>().enabled = true;
+				this.transform.FindChild("human_archer_Rig").gameObject.SetActive(false);
+				if(!_gameControllerScript.Archer1IsCover && this.name == "Archer1")
+				{
+					_gameControllerScript.Archer1IsCover = true;
+					this.GetComponentInChildren<TextMesh>().text = "Archer1\n(cover)";
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				}
+				else if(!_gameControllerScript.Archer2IsCover && this.name == "Archer2")
+				{
+					_gameControllerScript.Archer2IsCover = true;
+					this.GetComponentInChildren<TextMesh>().text = "Archer2\n(cover)";
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+				}
+			}
+			else if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 1)
+			{
+				Vector3 tmp = this.transform.position;
+				if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Archer1IsCover && this.name == "Archer1")
+				{
+					this.transform.position = GameObject.Find("Priest1").transform.position;
+					GameObject.Find("Priest1").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.Archer2IsCover && this.name == "Archer2")
+				{
+					this.transform.position = GameObject.Find("Priest1").transform.position;
+					GameObject.Find("Priest1").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Archer1IsCover && this.name == "Archer1")
+				{
+					this.transform.position = GameObject.Find("Priest2").transform.position;
+					GameObject.Find("Priest2").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.Archer2IsCover && this.name == "Archer2")
+				{
+					this.transform.position = GameObject.Find("Priest2").transform.position;
+					GameObject.Find("Priest2").transform.position = tmp;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+					_gameControllerScript.MindControlTurnOn = false;
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+					_gameControllerScript.SideEnd = true;
+				}
+				if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount == 0)
+					GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,255/255f,255/255f,80/255f);
+			}
+		}
   	}
 
 	private void clearMovementIndicators()
@@ -230,6 +287,18 @@ public class Archer : MonoBehaviour
 				_gameControllerScript.Archer2IsCover = false;
 			}
 		}
+		if(GameObject.Find("myinceasecard20"))
+		{
+			if(GameObject.Find("myinceasecard20").GetComponent<InceaseCard>().BlindfireSelect)
+			{
+				GameObject.Find("myinceasecard20").GetComponent<InceaseCard>().BlindfireUsed = true;
+				GameObject.Find("myinceasecard20").GetComponent<TweenAlpha>().enabled = false;
+				GameObject.Find("myinceasecard20").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				GameObject.Find("myinceasecard20").GetComponent<BoxCollider>().enabled = false;
+				GameObject.Find("myinceasecard20").GetComponent<InceaseCard>().BlindfireSelect = false;
+			}
+		}
+		_gameControllerScript.SideEnd = true;
   	}
 
   	private void showMovementRange()
@@ -274,12 +343,12 @@ public class Archer : MonoBehaviour
 						}
 						if(Physics.Raycast(ray, out hit))
 						{
-							if(check.Length == 2 )
+							if(check.Length == 2)
 							{	
 								
 								print("++"+tempname+"++");
 
-								if(hit.collider.name != tempname /*&& hit.collider.tag != this.gameObject.tag*/)
+								if(hit.collider.name != tempname)
 								{
 									print(hit.collider.name);
 									tempname = hit.collider.name;
@@ -383,6 +452,17 @@ public class Archer : MonoBehaviour
 
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
+		}
+		if(GameObject.Find("myinceasecard21"))
+		{
+			GameObject.Find("myinceasecard21").GetComponent<InceaseCard>().intuitionSelect = true;
+			_gameControllerScript.intuitionSelectTurnOn = true;
+			GameObject.Find("myinceasecard21").GetComponent<UIButton>().defaultColor = new Color(225/255f,0/255f,0/255f,255/255f);
+			GameObject.Find("myinceasecard21").GetComponent<InceaseCard>().intuitionCount--;
+		}
+		else
+		{
+			_gameControllerScript.SideEnd = true;
 		}
 	}
 	public void cannel()

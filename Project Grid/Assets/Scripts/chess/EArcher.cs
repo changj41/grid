@@ -111,7 +111,7 @@ public class EArcher : MonoBehaviour
 
 	void OnMouseDown()
   	{
-		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+		if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected && !_gameControllerScript.PerceptionProphecySelectTrunOn && !_gameControllerScript.intuitionSelectTurnOn)
 		{
 			panel.SetActive(true);
 			_gameController.GetComponent<GameController>().pieceSelected = true;
@@ -147,6 +147,41 @@ public class EArcher : MonoBehaviour
 				GameObject.Find("myinceasecard4").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				GameObject.Find("Hero1").GetComponent<Hero>().see();
 				print(GameObject.Find("myinceasecard4").GetComponent<UILabel>().color);
+			}
+		}
+		if(GameObject.Find("myinceasecard11"))
+		{
+			if(GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecySelect && (_gameController.GetComponent<GameController>().PreSelectedUnit == "Priest1" || _gameController.GetComponent<GameController>().PreSelectedUnit == "Priest2"))
+			{
+				if((this.name == "EArcher1" && _gameControllerScript.EArcher1IsCover)||(this.name == "EArcher2" && _gameControllerScript.EArcher2IsCover))
+				{
+					see();
+					GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecySelect = false;
+					_gameControllerScript.PerceptionProphecySelectTrunOn = false;
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().ResetDefaultColor();
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().enabled = false;
+					GameObject.Find("myinceasecard11").GetComponent<TweenAlpha>().enabled = false;
+				}
+				if(GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecyCount ==0)
+				{
+					GameObject.Find("myinceasecard11").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+					GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecyUse = true;
+				}
+			}
+		}
+		if(GameObject.Find("myinceasecard21"))
+		{
+			if(GameObject.Find("myinceasecard21").GetComponent<InceaseCard>().intuitionSelect)
+			{
+				see();
+				GameObject.Find("myinceasecard21").GetComponent<InceaseCard>().intuitionSelect = false;
+				_gameControllerScript.intuitionSelectTurnOn = false;
+				GameObject.Find("myinceasecard21").GetComponent<UIButton>().ResetDefaultColor();
+				GameObject.Find("myinceasecard21").GetComponent<UIButton>().enabled = false;
+				GameObject.Find("myinceasecard21").GetComponent<TweenAlpha>().enabled = false;
+				if(GameObject.Find("myinceasecard21").GetComponent<InceaseCard>().intuitionCount == 0)
+				GameObject.Find("myinceasecard21").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+				_gameControllerScript.SideEnd = true;
 			}
 		}
   	}

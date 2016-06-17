@@ -63,7 +63,7 @@ public class Priest : MonoBehaviour
       		ScreenInput input = _inputManager.GetInput();
       		if(input != null)
       		{
-       			if(clickCount >= 1)
+       			if(clickCount >= 0)
         		{
           			clickCount = 0;
           			Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -101,47 +101,36 @@ public class Priest : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide % 2 == 0)
+		if(_gameControllerScript.PlayerSide % 2 == 0 && !_gameControllerScript.SideEnd && _gameControllerScript.PlayerSide!=0)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == "" && !_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn && !_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+				{
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
 
-				if( _gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
-				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					if( _gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if( _gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					if( !_gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);			
+					}
+					else if( !_gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);			
+					}
 				}
-				else if( _gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
-				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				if( !_gameControllerScript.Priest1IsCover && this.gameObject.name == "Priest1" && _gameController.GetComponent<GameController>().selectedUnit == "Priest1")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);			
-				}
-				else if( !_gameControllerScript.Priest2IsCover && this.gameObject.name == "Priest2" && _gameController.GetComponent<GameController>().selectedUnit == "Priest2")
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);			
-				}
-			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
-			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
-				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
-				}
-				this.gameObject.GetComponent<Priest>().see();
 			}
 		}
 		if(GameObject.Find("myinceasecard2"))
@@ -149,11 +138,7 @@ public class Priest : MonoBehaviour
 			if(GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect)
 			{
 				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobSelect = false;
-				GameObject.Find("myinceasecard2").GetComponent<InceaseCard>().TheItalianJobUsed = true;
 				GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
-				GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 				Vector3 tmp = this.transform.position;
 				this.transform.position = GameObject.Find("Summoner1").transform.position;
 				GameObject.Find("Summoner1").transform.position = tmp;
@@ -212,61 +197,62 @@ public class Priest : MonoBehaviour
 		Vector3 currentPosition = this.transform.position;
 		newpos= new Vector3(newPosition.x, currentPosition.y, newPosition.z);
 		//down
-		if(newPosition.x < currentPosition.x && newPosition.z == currentPosition.z)
-		{
-			walkarround = "down";
-			i = new Vector3(0,270,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//up
-		else if(newPosition.x > currentPosition.x && newPosition.z == currentPosition.z)
-		{
-			walkarround = "up";
-			i = new Vector3(0,90,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//right
-		else if(newPosition.z < currentPosition.z && newPosition.x == currentPosition.x)
-		{
-			walkarround = "right";
-			i = new Vector3(0,180,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//left
-		else if(newPosition.z > currentPosition.z && newPosition.x == currentPosition.x)
-		{
-			walkarround = "left";
-			i = new Vector3(0,0,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//rightup
-		else if(newPosition.z < currentPosition.z && newPosition.x > currentPosition.x)
-		{
-			walkarround = "rightup";
-			i = new Vector3(0,135,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//leftup
-		else if(newPosition.z > currentPosition.z && newPosition.x > currentPosition.x)
-		{
-			walkarround = "leftup";
-			i = new Vector3(0,45,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//rightdown
-		else if(newPosition.z < currentPosition.z && newPosition.x < currentPosition.x)
-		{
-			walkarround = "rightdown";
-			i = new Vector3(0,-135,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
-		//leftdown
-		else if(newPosition.z > currentPosition.z && newPosition.x < currentPosition.x)
-		{
-			walkarround = "leftdown";
-			i = new Vector3(0,-45,0);
-			iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
-		}
+	
+			if(newPosition.x < currentPosition.x && newPosition.z == currentPosition.z)
+			{
+				walkarround = "down";
+				i = new Vector3(0,270,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//up
+			else if(newPosition.x > currentPosition.x && newPosition.z == currentPosition.z)
+			{
+				walkarround = "up";
+				i = new Vector3(0,90,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//right
+			else if(newPosition.z < currentPosition.z && newPosition.x == currentPosition.x)
+			{
+				walkarround = "right";
+				i = new Vector3(0,180,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//left
+			else if(newPosition.z > currentPosition.z && newPosition.x == currentPosition.x)
+			{
+				walkarround = "left";
+				i = new Vector3(0,0,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//rightup
+			else if(newPosition.z < currentPosition.z && newPosition.x > currentPosition.x)
+			{
+				walkarround = "rightup";
+				i = new Vector3(0,135,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//leftup
+			else if(newPosition.z > currentPosition.z && newPosition.x > currentPosition.x)
+			{
+				walkarround = "leftup";
+				i = new Vector3(0,45,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//rightdown
+			else if(newPosition.z < currentPosition.z && newPosition.x < currentPosition.x)
+			{
+				walkarround = "rightdown";
+				i = new Vector3(0,-135,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
+			//leftdown
+			else if(newPosition.z > currentPosition.z && newPosition.x < currentPosition.x)
+			{
+				walkarround = "leftdown";
+				i = new Vector3(0,-45,0);
+				iTween.RotateTo(Model,iTween.Hash("rotation",i,"speed",180f,"easetype","linear","oncomplete","Move","oncompletetarget",this.gameObject));
+			}
 		GetComponentInChildren<TextMesh>().text = this.gameObject.name;
 		if(this.gameObject.name == "Priest1")
 		{
@@ -310,15 +296,30 @@ public class Priest : MonoBehaviour
 						{
 							if(check.Length == 1)
 							{
-								if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+								if(GameObject.Find("myinceasecard12"))
 								{
-									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
-									moveRangeTile.transform.SetParent(this.transform);
-//									iTween.ColorTo(moveRangeTile,new Color(255/255f,0/255f,0/255f,50/255f),5f);
+									if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z && !GameObject.Find("myinceasecard12").GetComponent<InceaseCard>().SoulLinkUsed)
+									{
+										GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+										moveRangeTile.transform.SetParent(this.transform);
+									}
+									else if(hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z && GameObject.Find("myinceasecard12").GetComponent<InceaseCard>().SoulLinkUsed)
+									{
+										GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+										moveRangeTile.transform.SetParent(this.transform);
+									}
+								}
+								else
+								{
+									if(hit.collider.tag != this.gameObject.tag && hit.collider.transform.position.x == tileCoordinate.x && hit.collider.transform.position.z == tileCoordinate.z)
+									{
+										GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
+										moveRangeTile.transform.SetParent(this.transform);
+									}
 								}
 							}
-						}
-          			}
+          				}
+					}
         		}
       		}
     	}
@@ -395,7 +396,6 @@ public class Priest : MonoBehaviour
 			_gameController.GetComponent<GameController>().pieceSelected = false;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
 		}
@@ -408,7 +408,6 @@ public class Priest : MonoBehaviour
 			_gameController.GetComponent<GameController>().pieceSelected = false;
 			this.gameObject.GetComponent<MeshRenderer>().enabled = false;
 			this.transform.Find("Character").GetComponent<MeshRenderer>().enabled = false;
-
 			this.transform.Find("fx_magic_lightning_summon_blue").gameObject.SetActive(true);
 			StartCoroutine(waitParticle());
 		}
@@ -416,6 +415,30 @@ public class Priest : MonoBehaviour
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
 		}
+		if(GameObject.Find("myinceasecard10"))
+		{
+			GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = true;
+			_gameControllerScript.MindControlTurnOn = true;
+			GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep = 2;
+			GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,0/255f,0/255f,255/255f);
+			GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount--;
+		}
+		else
+		{
+			_gameControllerScript.SideEnd = true;
+		}
+		if(GameObject.Find("myinceasecard11"))
+		{
+			GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecySelect = true;
+			_gameControllerScript.PerceptionProphecySelectTrunOn = true;
+			GameObject.Find("myinceasecard11").GetComponent<UIButton>().defaultColor = new Color(225/255f,0/255f,0/255f,255/255f);
+			GameObject.Find("myinceasecard11").GetComponent<InceaseCard>().PerceptionProphecyCount--;
+		}
+		else
+		{
+			_gameControllerScript.SideEnd = true;
+		}
+
 	}
 	public void cannel()
 	{
@@ -463,8 +486,11 @@ public class Priest : MonoBehaviour
 	{
 		Iswalk = false;
 		yield return new WaitForSeconds(2f);
-		Iswalk = true;
-		iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		if(_gameControllerScript.AttackedGriNamedTag != this.tag)
+		{
+			Iswalk = true;
+			iTween.MoveTo(this.transform.gameObject,iTween.Hash("position",newpos,"speed",4f,"easetype","linear","oncomplete","checkPostion","oncompletetarget",this.gameObject));
+		}
 	}
 
 	void Move()
@@ -515,6 +541,6 @@ public class Priest : MonoBehaviour
 		Iswalk = false;
 		this.transform.position = newpos;
 		ani.SetFloat("Speed",0);
-		_gameControllerScript.PlayerSide ++;
+		_gameControllerScript.SideEnd = true;
 	}
 }

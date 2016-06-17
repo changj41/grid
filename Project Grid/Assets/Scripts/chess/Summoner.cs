@@ -60,7 +60,7 @@ public class Summoner : MonoBehaviour
       		ScreenInput input = _inputManager.GetInput();
       		if(input != null)
       		{
-        		if(clickCount >= 1)
+        		if(clickCount >= 0)
         		{
           			clickCount = 0;
           			Ray ray = new Ray(_camera.transform.position, input.inputPoint - _camera.transform.position);
@@ -97,37 +97,72 @@ public class Summoner : MonoBehaviour
 
   	void OnMouseDown()
   	{
-		if(_gameControllerScript.PlayerSide%2 == 0)
+		if(_gameControllerScript.PlayerSide%2 == 0&!_gameControllerScript.SideEnd)
 		{
-			if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
+			if(_gameControllerScript.TheTwiceStepSoldierName == "" && _gameControllerScript.SacrificeHitSelectName =="" && _gameControllerScript.TwoKnivesBatterName == "" &&!_gameControllerScript.MindControlTurnOn &&!_gameControllerScript.CommanderSelectTurnOn &&!_gameControllerScript.intuitionSelectTurnOn)
 			{
-				panel.SetActive(true);
-				_gameController.GetComponent<GameController>().pieceSelected = true;
-				_gameController.GetComponent<GameController>().selectedUnit = unitName;
-				_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
-				if(_gameControllerScript.SummnonerIsCover)
+				if(!showingMovementRange && !_gameController.GetComponent<GameController>().pieceSelected)
 				{
-					panel.transform.Find("OK").gameObject.SetActive(false);
-					GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
-				}
-				else if(!_gameControllerScript.SummnonerIsCover)
-				{
-					panel.transform.Find("see").gameObject.SetActive(false);
+					if(GameObject.Find("myinceasecard3"))
+					{
+						GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
+						GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,255/255f);
+					}
+					panel.SetActive(true);
+					_gameController.GetComponent<GameController>().pieceSelected = true;
+					_gameController.GetComponent<GameController>().selectedUnit = unitName;
+					_gameController.GetComponent<GameController>().PreSelectedUnit = unitName;
+					if(_gameControllerScript.SummnonerIsCover)
+					{
+						panel.transform.Find("OK").gameObject.SetActive(false);
+						GetComponentInChildren<TextMesh>().text = this.gameObject.name + "\n(Coverselect)";
+					}
+					else if(!_gameControllerScript.SummnonerIsCover)
+					{
+						panel.transform.Find("see").gameObject.SetActive(false);
+					}
 				}
 			}
-			if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect && GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount > 0)
+			if(GameObject.Find("myinceasecard10"))
 			{
-				GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount--;
-				if(GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeCount <= 0)
+				if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 2)
 				{
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeSelect = false;
-					GameObject.Find("myinceasecard3").GetComponent<InceaseCard>().BigDecreeUsed = true;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().ResetDefaultColor();
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<TweenAlpha>().enabled = false;
-					GameObject.Find("myinceasecard3").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
+					this.gameObject.GetComponent<MeshRenderer>().enabled = true;
+					this.transform.FindChild("Character").GetComponent<MeshRenderer>().enabled = true;
+					this.transform.FindChild("human_wizard_Rig").gameObject.SetActive(false);
+					if(!_gameControllerScript.SummnonerIsCover && this.name == "Summoner1")
+					{
+						_gameControllerScript.SummnonerIsCover = true;
+						this.GetComponentInChildren<TextMesh>().text = "Summoner\n(cover)";
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+					}
 				}
-				this.gameObject.GetComponent<Summoner>().see();
+				else if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect && GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep == 1)
+				{
+					Vector3 tmp = this.transform.position;
+					if(_gameControllerScript.PreSelectedUnit == "Priest1" && _gameControllerScript.SummnonerIsCover && this.name == "Summoner1")
+					{
+						this.transform.position = GameObject.Find("Priest1").transform.position;
+						GameObject.Find("Priest1").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					else if(_gameControllerScript.PreSelectedUnit == "Priest2" && _gameControllerScript.SummnonerIsCover && this.name == "Summoner1")
+					{
+						this.transform.position = GameObject.Find("Priest2").transform.position;
+						GameObject.Find("Priest2").transform.position = tmp;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelectStep--;
+						GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlSelect = false;
+						_gameControllerScript.MindControlTurnOn = false;
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().ResetDefaultColor();
+						_gameControllerScript.SideEnd = true;
+					}
+					if(GameObject.Find("myinceasecard10").GetComponent<InceaseCard>().MindControlCount == 0)
+						GameObject.Find("myinceasecard10").GetComponent<UIButton>().defaultColor = new Color(225/255f,255/255f,255/255f,80/255f);
+				}
 			}
 		}
 	}
@@ -246,7 +281,6 @@ public class Summoner : MonoBehaviour
 								{
 									GameObject moveRangeTile = Instantiate(_redPrefab, tileCoordinate, initQuat) as GameObject;
 									moveRangeTile.transform.SetParent(this.transform);
-//									iTween.ColorTo(moveRangeTile,new Color(255/255f,0/255f,0/255f,50/255f),5f);
 								}
 							}
 						}
@@ -301,16 +335,6 @@ public class Summoner : MonoBehaviour
 	}
 	public void see()
 	{
-		if(GameObject.Find("myinceasecard1"))
-		{
-			GameObject.Find("myinceasecard1").GetComponent<InceaseCard>().KingWithoutfearUsed = true;
-			GameObject.Find("myinceasecard1").GetComponent<UIButton>().defaultColor = new Color(225/255f,200/255f,150/255f,255/255f);
-		}
-		if(GameObject.Find("myinceasecard6"))
-		{
-			GameObject.Find("myinceasecard6").GetComponent<InceaseCard>().KingWithoutfearUsed = true;
-			GameObject.Find("myinceasecard6").GetComponent<UIButton>().defaultColor = new Color(225/255f,200/255f,150/255f,255/255f);
-		}
 		if(_gameControllerScript.SummnonerIsCover)
 		{
 			GetComponentInChildren<TextMesh>().text = unitName;
@@ -326,6 +350,13 @@ public class Summoner : MonoBehaviour
 		if(!panel.transform.Find("OK").gameObject.activeSelf)
 		{
 			panel.transform.Find("OK").gameObject.SetActive(true);
+		}
+		if(GameObject.Find("myinceasecard2"))
+		{
+			GameObject.Find("myinceasecard2").GetComponent<UIButton>().ResetDefaultColor();
+			GameObject.Find("myinceasecard2").GetComponent<UIButton>().enabled = false;
+			GameObject.Find("myinceasecard2").GetComponent<TweenAlpha>().enabled = false;
+			GameObject.Find("myinceasecard2").GetComponent<UIButton>().defaultColor = new Color(255/255f,255/255f,255/255f,80/255f);
 		}
 	}
 	public void cannel()
