@@ -54,6 +54,7 @@ public class InceaseCard : MonoBehaviour {
 	}
 
 	void OnClick(){
+		print(this.name);
 		string CardName = this.transform.GetComponent<UILabel>().text;
 		if(CardName == "偷天換日" && !TheItalianJobSelect && _gameController.GetComponent<GameController>().AttackedGridName == "Summoner1")
 		{

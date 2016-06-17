@@ -39,7 +39,6 @@ public class DragDropItem : UIDragDropItem{
 		else if(surface.tag == "SaveBox"&& this.tag == "DropUIClone")
 		{
 			this.transform.parent = surface.transform;
-			print("1111");
 			this.transform.localPosition = Vector3.zero;
 		}
 		else if(surface.tag == "DropUIClone" && this.tag == "DropUIClone")
