@@ -268,7 +268,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -280,7 +280,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -307,7 +307,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -319,7 +319,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -346,7 +346,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -358,7 +358,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.KnightCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "KnightIcon";
@@ -385,7 +385,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -397,7 +397,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -424,7 +424,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -436,7 +436,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -463,7 +463,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -475,7 +475,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.WarriorCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "WarriorIcon";
@@ -502,7 +502,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -514,7 +514,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -541,7 +541,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -553,7 +553,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -580,7 +580,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -592,7 +592,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.AssassinCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "AssassinIcon";
@@ -619,7 +619,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -631,7 +631,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -658,7 +658,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -670,7 +670,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -697,7 +697,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -709,7 +709,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.PriestCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "PriestIcon";
@@ -736,7 +736,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
@@ -748,7 +748,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
@@ -775,7 +775,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
@@ -787,7 +787,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
@@ -814,7 +814,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox2.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox2.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
@@ -826,7 +826,7 @@ public class ChooeseCard : MonoBehaviour {
 			else if(CardBox3.transform.childCount == 0 && _gameui.ArcherCount !=1)
 			{
 				go = Instantiate(item);
-				go.transform.parent  = CardBox1.transform;
+				go.transform.parent  = CardBox3.transform;
 				go.transform.localPosition = Vector3.zero;
 				go.transform.localScale = Vector3.one;
 				go.GetComponent<UISprite>().spriteName = "ArcherIcon";
