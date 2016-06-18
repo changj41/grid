@@ -18,6 +18,7 @@ public static class Constants {
 		public const string RedTilePrefab = "Prefabs/Red";
 		public const string RedMaterial = "Materials/Red";
 		public const string DropUI = "Prefabs/DropUI";
+		public const string OccupationIcon = "Prefabs/OccupationIcon";
   	}
 
   	public static class Tags

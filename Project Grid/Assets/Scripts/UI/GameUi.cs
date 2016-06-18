@@ -27,6 +27,17 @@ public class GameUI : MonoBehaviour {
 	public GameObject LoadItem;
 	GameObject go ;
 	public GameObject item;
+	public int SummonerCardCount;
+	public int HeroCount;
+	public int KnightCount;
+	public int WarriorCount;
+	public int AssassinCount;
+	public int PriestCount;
+	public int ArcherCount;
+	public int SoldierCount;
+	public string SelectInceaseCard1;
+	public string SelectInceaseCard2;
+	public string SelectInceaseCard3;
 
 	// Use this for initialization
 	public bool PageA;
@@ -299,7 +310,6 @@ public class GameUI : MonoBehaviour {
 		transform.FindChild("UI1001/UI1001_1").gameObject.SetActive(false);
 	}
 	public void UI1000_Button_2Clicked(){
-		print("1");
 		transform.FindChild ("UI1002").gameObject.SetActive (true);
 		transform.FindChild ("UI1000").gameObject.SetActive (false);
 	}

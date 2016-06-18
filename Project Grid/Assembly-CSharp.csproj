@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\AssassinGirl\Scripts\GUI_SelectAni2.cs" />
      <Compile Include="Assets\AssassinGirl\Scripts\RotateObject2.cs" />
+     <Compile Include="Assets\ChooeseCard.cs" />
      <Compile Include="Assets\Human Pack\Humans\Human Models\Projectiles\Magic Missile\humanMissileTail.cs" />
      <Compile Include="Assets\Human Pack\Scripts\DestroyByTime.cs" />
      <Compile Include="Assets\Human Pack\Scripts\gameContoller.cs" />
@@ -194,6 +195,7 @@
      <Compile Include="Assets\SampleWeapon.cs" />
      <Compile Include="Assets\Scripts\AttackPoint.cs" />
      <Compile Include="Assets\Scripts\Constants.cs" />
+     <Compile Include="Assets\Scripts\DeadMunu.cs" />
      <Compile Include="Assets\Scripts\DestrotDropUI.cs" />
      <Compile Include="Assets\Scripts\DragDrop.cs" />
      <Compile Include="Assets\Scripts\DragDropItem.cs" />
